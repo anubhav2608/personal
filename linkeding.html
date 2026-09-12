@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anubhav C. — Product Owner &amp; Delivery Lead</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --ink: #151a1e;
+    --ink-soft: #3a4147;
+    --muted: #6d7570;
+    --paper: #f2f0e9;
+    --paper-raised: #fbfaf6;
+    --line: #d9d5c8;
+    --line-strong: #b9b4a4;
+    --teal: #3b6b63;
+    --teal-deep: #274b45;
+    --amber: #ab6f2c;
+
+    --serif: "Source Serif 4", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  body{
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  a{ color: var(--teal-deep); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover{ color: var(--teal); }
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
+  }
+
+  /* ---------- layout shell ---------- */
+  .shell{
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    max-width: 1180px;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+
+  /* ---------- sidebar ---------- */
+  .rail{
+    border-right: 1px solid var(--line);
+    padding: 56px 32px 40px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .rail-top .id-mark{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    margin: 0 0 22px;
+  }
+
+  .rail-top h1{
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.15;
+    margin: 0 0 6px;
+    color: var(--ink);
+  }
+
+  .rail-top .role{
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin: 0 0 4px;
+  }
+
+  .rail-top .loc{
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 28px;
+  }
+
+  .rail-contact{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13.5px;
+    margin-bottom: 36px;
+  }
+  .rail-contact a{ color: var(--ink-soft); }
+
+  nav.rail-nav{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+  nav.rail-nav a{
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13.5px;
+    padding: 7px 0;
+    border-left: 2px solid transparent;
+    padding-left: 12px;
+    margin-left: -12px;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  nav.rail-nav a:hover{ color: var(--ink); }
+  nav.rail-nav a.active{
+    color: var(--teal-deep);
+    border-left-color: var(--teal);
+    font-weight: 500;
+  }
+
+  .rail-bottom{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--line-strong);
+    line-height: 1.6;
+  }
+
+  /* ---------- main content ---------- */
+  main{ padding: 56px 56px 100px; min-width: 0; }
+
+  section{ margin-bottom: 76px; scroll-margin-top: 40px; }
+
+  .section-label{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0 0 18px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .section-label::after{
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  h2{
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 26px;
+    margin: 0 0 20px;
+    color: var(--ink);
+  }
+
+  /* ---------- opening record panel ---------- */
+  .record{
+    position: relative;
+    border: 1px solid var(--line);
+    background: var(--paper-raised);
+    padding: 40px 44px;
+    margin-bottom: 64px;
+    overflow: hidden;
+  }
+  .record p.lede{
+    font-family: var(--serif);
+    font-size: 21px;
+    line-height: 1.5;
+    max-width: 62ch;
+    color: var(--ink);
+    margin: 0 0 30px;
+  }
+  .record-stats{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+  .stat .num{
+    font-family: var(--serif);
+    font-size: 30px;
+    color: var(--teal-deep);
+    line-height: 1;
+  }
+  .stat .cap{
+    font-size: 12.5px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .seal{
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    width: 108px;
+    height: 108px;
+    transform: rotate(-9deg);
+    opacity: 0.92;
+  }
+
+  /* ---------- experience ledger ---------- */
+  .role-block{
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 28px;
+    padding: 26px 0;
+    border-top: 1px solid var(--line);
+  }
+  .role-block:last-child{ border-bottom: 1px solid var(--line); }
+
+  .role-when{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted);
+    padding-top: 3px;
+  }
+  .role-when .span{
+    display: block;
+    color: var(--line-strong);
+    margin-top: 2px;
+    font-size: 11.5px;
+  }
+
+  .role-org{
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+    margin: 0 0 2px;
+  }
+  .role-title{
+    font-size: 14.5px;
+    color: var(--teal-deep);
+    margin: 0 0 10px;
+  }
+  .role-meta{
+    font-size: 12.5px;
+    color: var(--muted);
+    margin: 0 0 12px;
+  }
+  .role-body p{
+    margin: 0 0 10px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    max-width: 68ch;
+  }
+  .role-body ul{
+    margin: 10px 0 0;
+    padding-left: 18px;
+  }
+  .role-body li{
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+    max-width: 66ch;
+  }
+
+  /* ---------- skills / certs grid ---------- */
+  .grid-2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .taglist{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    padding: 6px 12px;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-soft);
+  }
+  .cert-list{ list-style: none; margin: 0; padding: 0; }
+  .cert-list li{
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .cert-list li:last-child{ border-bottom: 1px solid var(--line); }
+
+  /* ---------- education ---------- */
+  .edu-item{
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 28px;
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+  }
+  .edu-item:last-child{ border-bottom: 1px solid var(--line); }
+  .edu-item .when{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  .edu-item .degree{ font-weight: 600; font-size: 15px; margin: 0 0 3px; }
+  .edu-item .school{ font-size: 13.5px; color: var(--muted); }
+
+  /* ---------- honors ---------- */
+  .honors{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 0;
+  }
+  .honor{
+    width: 50%;
+    padding-right: 24px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    position: relative;
+    padding-left: 18px;
+  }
+  .honor::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 6px;
+    height: 6px;
+    background: var(--amber);
+    border-radius: 50%;
+  }
+
+  footer{
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* ---------- mobile top bar ---------- */
+  .mobile-bar{ display: none; }
+
+  @media (max-width: 880px){
+    .shell{ grid-template-columns: 1fr; }
+    .rail{
+      position: static;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      padding: 28px 24px 24px;
+    }
+    .rail-nav{ display: none; }
+    main{ padding: 40px 24px 80px; }
+    .record{ padding: 28px 24px; }
+    .record-stats{ grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .seal{ display: none; }
+    .role-block, .edu-item{ grid-template-columns: 1fr; gap: 6px; }
+    .role-when{ padding-top: 0; }
+    .grid-2{ grid-template-columns: 1fr; gap: 32px; }
+    .honor{ width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="rail">
+    <div class="rail-top">
+      <p class="id-mark">Record No. AC—2608</p>
+      <h1>Anubhav C.</h1>
+      <p class="role">Product Owner &amp; Delivery Lead</p>
+      <p class="loc">Noida, Uttar Pradesh, India</p>
+
+      <div class="rail-contact">
+        <a href="mailto:anubhav2608@gmail.com">anubhav2608@gmail.com</a>
+        <a href="https://www.linkedin.com/in/anubhav-cb7160656" target="_blank" rel="noopener">linkedin.com/in/anubhav-cb7160656</a>
+      </div>
+
+      <nav class="rail-nav" id="railNav">
+        <a href="#overview" class="active">Overview</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills &amp; certifications</a>
+        <a href="#education">Education</a>
+        <a href="#honors">Honors</a>
+      </nav>
+    </div>
+
+    <div class="rail-bottom">
+      13+ yrs — agile delivery<br>
+      Manufacturing / Public Sector / Verification
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main>
+
+    <section id="overview">
+      <div class="record">
+        <svg class="seal" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#3b6b63" stroke-width="1.4" stroke-dasharray="3 4"/>
+          <circle cx="50" cy="50" r="37" fill="none" stroke="#3b6b63" stroke-width="1"/>
+          <text x="50" y="42" text-anchor="middle" font-family="IBM Plex Mono" font-size="8.5" fill="#274b45" letter-spacing="1">SOURCE</text>
+          <text x="50" y="55" text-anchor="middle" font-family="IBM Plex Mono" font-size="8.5" fill="#274b45" letter-spacing="1">VERIFIED</text>
+          <text x="50" y="68" text-anchor="middle" font-family="IBM Plex Mono" font-size="7" fill="#6d7570">EST. 2010</text>
+        </svg>
+
+        <p class="lede">Product owner and delivery lead who has spent thirteen years turning agile process into audit-grade reliability — running verification, data and ERP-modernization programs for government and enterprise clients without missing an SLA.</p>
+
+        <div class="record-stats">
+          <div class="stat">
+            <div class="num">13+</div>
+            <div class="cap">years in delivery &amp; product</div>
+          </div>
+          <div class="stat">
+            <div class="num">$50M</div>
+            <div class="cap">annual invoicing under management</div>
+          </div>
+          <div class="stat">
+            <div class="num">11</div>
+            <div class="cap">person team, internal + contractors</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <p class="section-label">Experience</p>
+      <h2>Work history</h2>
+
+      <div class="role-block">
+        <div class="role-when">Apr 2026 — Present<span class="span">DataFlow Group</span></div>
+        <div class="role-content">
+          <p class="role-org">DataFlow Group</p>
+          <p class="role-title">Senior Project Manager</p>
+          <p class="role-meta">Noida · MENA region public &amp; private sector clients · $50M annual invoicing portfolio</p>
+          <div class="role-body">
+            <p>Leading agile delivery and product lifecycle for a primary source verification platform used by government clients across the MENA region, with end-to-end governance from sprint planning through release and stakeholder reporting.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-block">
+        <div class="role-when">Jul 2024 — Apr 2026<span class="span">1 yr 10 mo</span></div>
+        <div class="role-content">
+          <p class="role-org">DataFlow Group</p>
+          <p class="role-title">IT Project Manager / Product Manager</p>
+          <p class="role-meta">Noida</p>
+          <div class="role-body">
+            <p>Owned backlog management and release coordination for the same verification platform, managing a team of 11 internal and contract staff through the platform's early scale-up.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-block">
+        <div class="role-when">Sep 2020 — Jul 2024<span class="span">3 yr 11 mo</span></div>
+        <div class="role-content">
+          <p class="role-org">Infosys</p>
+          <p class="role-title">Senior Consultant</p>
+          <p class="role-meta">Pune · Forecasting &amp; KPIs, data lake archival, legacy ERP modernization</p>
+          <div class="role-body">
+            <ul>
+              <li>Led impact analysis and remediation strategy for enterprise data lake reports and dashboards affected by ERP modernization, spanning Informatica, Symphony, MicroStrategy and ADLS.</li>
+              <li>Built forecasting and operational KPI reporting in Power BI, SQL and ADLS, and led a legacy-app data archival and reporting initiative on Power BI / ADLS Gen 2.</li>
+              <li>Wrote acceptance criteria in BDD format, ran discovery sessions and sprint demos, and produced STTMs, flowcharts and use-case diagrams for development teams.</li>
+              <li>Directed multi-vendor teams on migration and backup strategy, tracked defects to resolution, and reported project status against scope, budget and plan.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-block">
+        <div class="role-when">Jul 2016 — Jul 2020<span class="span">4 yr, two roles</span></div>
+        <div class="role-content">
+          <p class="role-org">Infosys</p>
+          <p class="role-title">Consultant → Senior Associate Consultant, Pre-Sales</p>
+          <p class="role-meta">Pune · Banking, insurance &amp; public sector</p>
+          <div class="role-body">
+            <p>Ran full bid lifecycles worth $1M–$50M for managed services and digital transformation deals, from RFI/RFP response through pricing analysis and CxO-level demos. Built the team's Power BI pipeline-reporting and win/loss templates, mentored new joiners, and won three individual awards for pre-sales performance.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="role-block">
+        <div class="role-when">May 2015 — Jul 2015<span class="span">Internship</span></div>
+        <div class="role-content">
+          <p class="role-org">Patni Healthcare</p>
+          <p class="role-title">Summer Intern</p>
+          <p class="role-meta">Marketing &amp; branding</p>
+        </div>
+      </div>
+
+      <div class="role-block">
+        <div class="role-when">Jun 2010 — May 2014<span class="span">4 yr</span></div>
+        <div class="role-content">
+          <p class="role-org">Infosys</p>
+          <p class="role-title">Senior System Engineer</p>
+          <p class="role-meta">Pune · US health insurance, post-ACA product change management</p>
+          <div class="role-body">
+            <ul>
+              <li>Reviewed healthcare law across more than 25 US states to keep product configuration compliant, and built the algorithm used to update plan benefits from design documents.</li>
+              <li>Cut BPO team setup time by 20% by automating manual configuration steps, using HP Exstream for document generation.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <p class="section-label">Skills &amp; certifications</p>
+      <div class="grid-2">
+        <div>
+          <h2>Core skills</h2>
+          <div class="taglist">
+            <span class="tag">Software product management</span>
+            <span class="tag">AWS</span>
+            <span class="tag">REST APIs</span>
+            <span class="tag">Agile delivery</span>
+            <span class="tag">Power BI</span>
+            <span class="tag">Stakeholder management</span>
+          </div>
+        </div>
+        <div>
+          <h2>Certifications</h2>
+          <ul class="cert-list">
+            <li>AWS Certified Cloud Practitioner</li>
+            <li>DP-900 — Azure Data Fundamentals</li>
+            <li>Build Data Pipelines with Lakeflow Spark Declarative Pipelines</li>
+            <li>AHIP — America's Health Insurance Plans, Part A &amp; B</li>
+            <li>HP Exstream Certification</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <p class="section-label">Education</p>
+      <h2>Academic record</h2>
+
+      <div class="edu-item">
+        <div class="when">2014 — 2016</div>
+        <div>
+          <p class="degree">MBA, Marketing</p>
+          <p class="school">K.J. Somaiya Institute of Management Studies and Research</p>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="when">2006 — 2010</div>
+        <div>
+          <p class="degree">B.E., Electrical, Electronics &amp; Communications Engineering</p>
+          <p class="school">JIET Guna</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="honors">
+      <p class="section-label">Recognition</p>
+      <h2>Honors &amp; awards</h2>
+      <div class="honors">
+        <div class="honor">Insta Award — for pre-sales performance</div>
+        <div class="honor">Most Valuable Player</div>
+        <div class="honor">Best Business Enabler Award (Team)</div>
+        <div class="honor">Insta Award — second recognition</div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Hindi &amp; English</span>
+      <span>anubhav2608@gmail.com</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // lightweight active-section highlight in the sidebar nav
+  const links = document.querySelectorAll('#railNav a');
+  const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
+
+  const setActive = () => {
+    let current = sections[0];
+    const y = window.scrollY + 120;
+    sections.forEach(sec => { if (sec && sec.offsetTop <= y) current = sec; });
+    links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current.id));
+  };
+
+  window.addEventListener('scroll', setActive, { passive: true });
+  setActive();
+</script>
+
+</body>
+</html>
