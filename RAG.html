@@ -1,0 +1,1555 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RAG Simulator</title>
+
+<style>
+:root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --text: #172033;
+    --muted: #697386;
+    --border: #e4e8f0;
+    --primary: #5b5ce2;
+    --primary-light: #eef0ff;
+    --success: #16845b;
+    --success-light: #e8f7f0;
+    --warning: #b7791f;
+    --warning-light: #fff7df;
+    --danger: #c0392b;
+    --danger-light: #fff0ee;
+    --shadow: 0 8px 30px rgba(25, 35, 60, 0.07);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Header */
+
+header {
+    background: #111827;
+    color: white;
+    padding: 22px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #6366f1;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+}
+
+.logo h1 {
+    font-size: 19px;
+    margin: 0;
+}
+
+.logo p {
+    margin: 3px 0 0;
+    font-size: 12px;
+    color: #aeb7c8;
+}
+
+.header-badge {
+    font-size: 12px;
+    border: 1px solid #374151;
+    padding: 7px 11px;
+    border-radius: 20px;
+    color: #cbd5e1;
+}
+
+/* Layout */
+
+.container {
+    max-width: 1450px;
+    margin: auto;
+    padding: 28px;
+}
+
+.intro {
+    margin-bottom: 24px;
+}
+
+.intro h2 {
+    margin: 0 0 6px;
+    font-size: 27px;
+}
+
+.intro p {
+    color: var(--muted);
+    margin: 0;
+}
+
+/* Pipeline */
+
+.pipeline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 5px 2px 22px;
+}
+
+.step {
+    min-width: 135px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    transition: 0.25s;
+}
+
+.step.active {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.arrow {
+    color: #a0a8b8;
+    font-size: 18px;
+}
+
+/* Main grid */
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 20px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+}
+
+.card-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.card-header p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Controls */
+
+.control {
+    margin-bottom: 20px;
+}
+
+.control label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.control-value {
+    color: var(--primary);
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
+textarea,
+input[type="text"] {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 13px;
+    resize: vertical;
+    outline: none;
+}
+
+textarea:focus,
+input[type="text"]:focus {
+    border-color: var(--primary);
+}
+
+button {
+    border: 0;
+    border-radius: 10px;
+    padding: 11px 15px;
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: white;
+    width: 100%;
+}
+
+.secondary-btn {
+    background: #f0f2f7;
+    color: var(--text);
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Workspace */
+
+.workspace {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+/* Document */
+
+.document-box {
+    background: #fafbfe;
+    border: 1px dashed #cfd5e1;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    max-height: 220px;
+    overflow: auto;
+}
+
+/* Chunks */
+
+.chunks {
+    display: grid;
+    gap: 9px;
+    max-height: 260px;
+    overflow: auto;
+}
+
+.chunk {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px;
+    font-size: 11px;
+    line-height: 1.5;
+    background: #fbfcff;
+}
+
+.chunk-number {
+    color: var(--primary);
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+/* Vector */
+
+.vector-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 70px;
+    gap: 10px;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid #f0f2f6;
+    font-size: 11px;
+}
+
+.vector {
+    color: #606a7d;
+    font-family: monospace;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.score-bar {
+    height: 7px;
+    background: #e8ebf2;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.score-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+/* Retrieval */
+
+.result {
+    padding: 13px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    margin-bottom: 10px;
+}
+
+.result.selected {
+    border-color: var(--success);
+    background: var(--success-light);
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.result-text {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.badge {
+    padding: 4px 7px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.badge-green {
+    background: var(--success-light);
+    color: var(--success);
+}
+
+.badge-yellow {
+    background: var(--warning-light);
+    color: var(--warning);
+}
+
+/* Prompt */
+
+.prompt {
+    background: #111827;
+    color: #e5e7eb;
+    padding: 15px;
+    border-radius: 11px;
+    font-family: monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* Answer */
+
+.answer {
+    background: var(--success-light);
+    border: 1px solid #bfe8d4;
+    padding: 18px;
+    border-radius: 12px;
+    line-height: 1.6;
+    font-size: 13px;
+}
+
+.fact {
+    display: inline-block;
+    background: white;
+    border-radius: 5px;
+    padding: 2px 5px;
+    font-weight: 700;
+}
+
+/* Evaluation */
+
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.metric {
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    padding: 14px;
+}
+
+.metric-value {
+    font-size: 23px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.metric-label {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 3px;
+}
+
+/* Footer */
+
+.learning-note {
+    margin-top: 20px;
+    background: var(--primary-light);
+    border-radius: 13px;
+    padding: 16px;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.learning-note strong {
+    color: var(--primary);
+}
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .metrics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <div class="logo-mark">R</div>
+        <div>
+            <h1>RAG Simulator</h1>
+            <p>Understand Retrieval-Augmented Generation visually</p>
+        </div>
+    </div>
+
+    <div class="header-badge">Learning Mode · No API required</div>
+</header>
+
+<div class="container">
+
+    <div class="intro">
+        <h2>How does RAG actually work?</h2>
+        <p>
+            Change the parameters, run the pipeline and observe what happens at every stage.
+        </p>
+    </div>
+
+    <!-- PIPELINE -->
+
+    <div class="pipeline" id="pipeline">
+
+        <div class="step" data-step="document">1. Document</div>
+        <div class="arrow">→</div>
+
+        <div class="step" data-step="chunk">2. Chunking</div>
+        <div class="arrow">→</div>
+
+        <div class="step" data-step="embedding">3. Embedding</div>
+        <div class="arrow">→</div>
+
+        <div class="step" data-step="db">4. Vector DB</div>
+        <div class="arrow">→</div>
+
+        <div class="step" data-step="query">5. Query</div>
+        <div class="arrow">→</div>
+
+        <div class="step" data-step="retrieve">6. Retrieval</div>
+        <div class="arrow">→</div>
+
+        <div class="step" data-step="rerank">7. Rerank</div>
+        <div class="arrow">→</div>
+
+        <div class="step" data-step="llm">8. LLM</div>
+        <div class="arrow">→</div>
+
+        <div class="step" data-step="eval">9. Evaluate</div>
+
+    </div>
+
+
+    <div class="main-grid">
+
+        <!-- LEFT CONTROLS -->
+
+        <aside class="card">
+
+            <div class="card-header">
+                <h3>Experiment controls</h3>
+                <p>Change these and observe the effect.</p>
+            </div>
+
+            <div class="card-body">
+
+                <div class="control">
+                    <label>
+                        Chunk size
+                        <span class="control-value" id="chunkValue">180</span>
+                    </label>
+
+                    <input
+                        type="range"
+                        min="80"
+                        max="300"
+                        value="180"
+                        id="chunkSize"
+                    />
+                </div>
+
+                <div class="control">
+                    <label>
+                        Chunk overlap
+                        <span class="control-value" id="overlapValue">30</span>
+                    </label>
+
+                    <input
+                        type="range"
+                        min="0"
+                        max="80"
+                        value="30"
+                        id="overlap"
+                    />
+                </div>
+
+                <div class="control">
+                    <label>
+                        Top-K retrieval
+                        <span class="control-value" id="topKValue">3</span>
+                    </label>
+
+                    <input
+                        type="range"
+                        min="1"
+                        max="6"
+                        value="3"
+                        id="topK"
+                    />
+                </div>
+
+                <div class="control">
+                    <label>
+                        Similarity threshold
+                        <span class="control-value" id="thresholdValue">0.65</span>
+                    </label>
+
+                    <input
+                        type="range"
+                        min="0.30"
+                        max="0.95"
+                        step="0.05"
+                        value="0.65"
+                        id="threshold"
+                    />
+                </div>
+
+                <div class="control">
+
+                    <label>Your question</label>
+
+                    <textarea
+                        id="question"
+                        rows="4"
+                    >What is the company's remote work policy?</textarea>
+
+                </div>
+
+                <button class="primary-btn" onclick="runRAG()">
+                    ▶ Run RAG Pipeline
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- RIGHT WORKSPACE -->
+
+        <main class="workspace">
+
+            <!-- DOCUMENT -->
+
+            <section class="card">
+
+                <div class="card-header">
+                    <h3>① Source Document</h3>
+                    <p>Raw information entering the RAG system</p>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="document-box" id="document">
+                        <strong>Company Employee Handbook</strong><br><br>
+
+                        The company supports a flexible working environment.
+                        Employees may work remotely up to three days per week,
+                        subject to manager approval and team requirements.
+
+                        <br><br>
+
+                        Employees working remotely must remain available during
+                        core working hours from 10:00 AM to 4:00 PM.
+
+                        <br><br>
+
+                        Remote employees are responsible for maintaining a
+                        secure internet connection and using company-approved
+                        devices.
+
+                        <br><br>
+
+                        Employees may be required to attend important meetings
+                        or company events in person.
+
+                        <br><br>
+
+                        Managers may modify remote work arrangements depending
+                        on business needs, customer commitments and operational
+                        requirements.
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- CHUNKING -->
+
+            <section class="card">
+
+                <div class="card-header">
+                    <h3>② Chunking</h3>
+                    <p>Document split into retrievable pieces</p>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="chunks" id="chunks"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- EMBEDDINGS -->
+
+            <section class="card">
+
+                <div class="card-header">
+                    <h3>③ Embeddings → Vector DB</h3>
+                    <p>Chunks represented as vectors</p>
+                </div>
+
+                <div class="card-body">
+
+                    <div id="vectors"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- QUERY + RETRIEVAL -->
+
+            <section class="card">
+
+                <div class="card-header">
+                    <h3>④ Query → Retrieval</h3>
+                    <p>Query embedding compared with stored vectors</p>
+                </div>
+
+                <div class="card-body">
+
+                    <div style="margin-bottom:12px">
+                        <strong style="font-size:12px">Query</strong>
+
+                        <div
+                            style="
+                            background:#f7f8fc;
+                            padding:10px;
+                            border-radius:9px;
+                            margin-top:6px;
+                            font-size:12px;
+                            "
+                            id="queryDisplay"
+                        ></div>
+                    </div>
+
+                    <div id="retrievalResults"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- RERANK -->
+
+            <section class="card">
+
+                <div class="card-header">
+                    <h3>⑤ Reranking</h3>
+                    <p>Retrieved results can be reordered by relevance</p>
+                </div>
+
+                <div class="card-body">
+
+                    <div id="rerankResults"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- PROMPT -->
+
+            <section class="card">
+
+                <div class="card-header">
+                    <h3>⑥ Prompt + Context</h3>
+                    <p>This is what the LLM actually receives</p>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="prompt" id="prompt"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ANSWER -->
+
+            <section class="card full">
+
+                <div class="card-header">
+                    <h3>⑦ LLM Generation</h3>
+                    <p>Answer generated using retrieved context</p>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="answer" id="answer">
+                        Run the pipeline to generate an answer.
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- EVALUATION -->
+
+            <section class="card full">
+
+                <div class="card-header">
+                    <h3>⑧ RAG Evaluation</h3>
+                    <p>Measure whether retrieval and generation are actually working</p>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="metrics">
+
+                        <div class="metric">
+                            <div class="metric-value" id="retrievalScore">—</div>
+                            <div class="metric-label">
+                                Retrieval relevance
+                            </div>
+                        </div>
+
+                        <div class="metric">
+                            <div class="metric-value" id="groundingScore">—</div>
+                            <div class="metric-label">
+                                Answer grounding
+                            </div>
+                        </div>
+
+                        <div class="metric">
+                            <div class="metric-value" id="contextScore">—</div>
+                            <div class="metric-label">
+                                Context coverage
+                            </div>
+                        </div>
+
+                        <div class="metric">
+                            <div class="metric-value" id="overallScore">—</div>
+                            <div class="metric-label">
+                                Overall RAG quality
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="learning-note">
+
+                        <strong>Important:</strong>
+                        Evaluation is separate from updating the vector database.
+
+                        <br><br>
+
+                        If the source document changes, you should re-ingest,
+                        re-chunk and re-embed the changed content so the vector
+                        database does not contain stale information.
+
+                        <br><br>
+
+                        Evaluation asks a different question:
+
+                        <strong>
+                            "Is my RAG system retrieving the right information
+                            and generating a grounded answer?"
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+==========================================================
+RAG SIMULATOR
+==========================================================
+
+This is intentionally a SIMULATION.
+
+It does NOT call a real embedding model, vector database
+or LLM.
+
+Instead it approximates the behaviour so you can understand
+the architecture visually.
+
+==========================================================
+*/
+
+
+const sourceChunks = [
+    {
+        id: 1,
+        text: "The company supports a flexible working environment. Employees may work remotely up to three days per week, subject to manager approval and team requirements.",
+        keywords: ["remote", "work", "working", "days", "week", "manager", "approval"]
+    },
+
+    {
+        id: 2,
+        text: "Employees working remotely must remain available during core working hours from 10:00 AM to 4:00 PM.",
+        keywords: ["remote", "working", "hours", "10", "4", "available", "core"]
+    },
+
+    {
+        id: 3,
+        text: "Remote employees are responsible for maintaining a secure internet connection and using company-approved devices.",
+        keywords: ["remote", "internet", "secure", "devices", "approved"]
+    },
+
+    {
+        id: 4,
+        text: "Employees may be required to attend important meetings or company events in person.",
+        keywords: ["meetings", "events", "person", "office"]
+    },
+
+    {
+        id: 5,
+        text: "Managers may modify remote work arrangements depending on business needs, customer commitments and operational requirements.",
+        keywords: ["manager", "remote", "business", "customer", "requirements"]
+    }
+];
+
+
+/* -------------------------------------------------------
+   UI ELEMENTS
+------------------------------------------------------- */
+
+const chunkSize = document.getElementById("chunkSize");
+const overlap = document.getElementById("overlap");
+const topK = document.getElementById("topK");
+const threshold = document.getElementById("threshold");
+
+chunkSize.addEventListener("input", () => {
+    document.getElementById("chunkValue").textContent = chunkSize.value;
+});
+
+overlap.addEventListener("input", () => {
+    document.getElementById("overlapValue").textContent = overlap.value;
+});
+
+topK.addEventListener("input", () => {
+    document.getElementById("topKValue").textContent = topK.value;
+});
+
+threshold.addEventListener("input", () => {
+    document.getElementById("thresholdValue").textContent =
+        Number(threshold.value).toFixed(2);
+});
+
+
+/* -------------------------------------------------------
+   SIMULATED EMBEDDING
+------------------------------------------------------- */
+
+function fakeEmbedding(text) {
+
+    let values = [];
+
+    for (let i = 0; i < 8; i++) {
+
+        let total = 0;
+
+        for (let j = 0; j < text.length; j++) {
+            total += text.charCodeAt(j) * (i + 1);
+        }
+
+        let value =
+            Math.abs(Math.sin(total / (100 + i * 17)));
+
+        values.push(value.toFixed(2));
+    }
+
+    return values;
+}
+
+
+/* -------------------------------------------------------
+   COSINE-LIKE SIMILARITY
+
+   This is intentionally simplified.
+------------------------------------------------------- */
+
+function similarity(query, chunk) {
+
+    const queryWords = query
+        .toLowerCase()
+        .split(/\W+/)
+        .filter(Boolean);
+
+    let matches = 0;
+
+    queryWords.forEach(word => {
+
+        if (
+            chunk.text.toLowerCase().includes(word) ||
+            chunk.keywords.includes(word)
+        ) {
+            matches++;
+        }
+
+    });
+
+    let baseScore = matches / Math.max(queryWords.length, 1);
+
+    /*
+      Add small deterministic variation so results aren't
+      always identical.
+    */
+
+    baseScore +=
+        (chunk.id * 0.013);
+
+    return Math.min(baseScore, 0.99);
+}
+
+
+/* -------------------------------------------------------
+   PIPELINE STEP HIGHLIGHT
+------------------------------------------------------- */
+
+function activate(step) {
+
+    document.querySelectorAll(".step")
+        .forEach(x => x.classList.remove("active"));
+
+    const target = document.querySelector(
+        `[data-step="${step}"]`
+    );
+
+    if (target) target.classList.add("active");
+}
+
+
+/* -------------------------------------------------------
+   CHUNKING
+------------------------------------------------------- */
+
+function renderChunks() {
+
+    const container = document.getElementById("chunks");
+
+    container.innerHTML = "";
+
+    sourceChunks.forEach(chunk => {
+
+        const div = document.createElement("div");
+
+        div.className = "chunk";
+
+        div.innerHTML = `
+            <div class="chunk-number">
+                CHUNK ${chunk.id}
+            </div>
+
+            ${chunk.text}
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* -------------------------------------------------------
+   VECTOR DATABASE
+------------------------------------------------------- */
+
+function renderVectors() {
+
+    const container = document.getElementById("vectors");
+
+    container.innerHTML = "";
+
+    sourceChunks.forEach(chunk => {
+
+        const vector = fakeEmbedding(chunk.text);
+
+        const row = document.createElement("div");
+
+        row.className = "vector-row";
+
+        row.innerHTML = `
+
+            <strong>Chunk ${chunk.id}</strong>
+
+            <div class="vector">
+                [${vector.join(", ")}]
+            </div>
+
+            <span>Vector</span>
+        `;
+
+        container.appendChild(row);
+
+    });
+
+}
+
+
+/* -------------------------------------------------------
+   RETRIEVAL
+------------------------------------------------------- */
+
+function retrieve(query) {
+
+    return sourceChunks
+        .map(chunk => ({
+            ...chunk,
+            score: similarity(query, chunk)
+        }))
+        .sort((a, b) => b.score - a.score);
+}
+
+
+/* -------------------------------------------------------
+   DISPLAY RETRIEVAL
+------------------------------------------------------- */
+
+function renderRetrieval(results) {
+
+    const container =
+        document.getElementById("retrievalResults");
+
+    container.innerHTML = "";
+
+    const k = Number(topK.value);
+
+    results.forEach((result, index) => {
+
+        const selected =
+            index < k &&
+            result.score >= Number(threshold.value);
+
+        const div = document.createElement("div");
+
+        div.className =
+            "result " + (selected ? "selected" : "");
+
+        div.innerHTML = `
+
+            <div class="result-header">
+
+                <span>
+                    Chunk ${result.id}
+                </span>
+
+                <span class="badge ${
+                    selected
+                        ? "badge-green"
+                        : "badge-yellow"
+                }">
+
+                    ${(result.score * 100).toFixed(0)}%
+
+                </span>
+
+            </div>
+
+            <div class="result-text">
+                ${result.text}
+            </div>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* -------------------------------------------------------
+   RERANK
+------------------------------------------------------- */
+
+function rerank(results) {
+
+    /*
+       Simulate a reranker giving additional weight to
+       direct keyword overlap.
+    */
+
+    return results
+        .map(r => ({
+            ...r,
+            rerankScore:
+                Math.min(
+                    r.score +
+                    (r.keywords.length * 0.005),
+                    0.99
+                )
+        }))
+        .sort((a, b) =>
+            b.rerankScore - a.rerankScore
+        );
+
+}
+
+
+/* -------------------------------------------------------
+   DISPLAY RERANK
+------------------------------------------------------- */
+
+function renderRerank(results) {
+
+    const container =
+        document.getElementById("rerankResults");
+
+    container.innerHTML = "";
+
+    const k = Number(topK.value);
+
+    results.slice(0, k).forEach((result, index) => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "result selected";
+
+        div.innerHTML = `
+
+            <div class="result-header">
+
+                <span>
+                    Rank #${index + 1} · Chunk ${result.id}
+                </span>
+
+                <span class="badge badge-green">
+                    ${(result.rerankScore * 100).toFixed(0)}%
+                </span>
+
+            </div>
+
+            <div class="result-text">
+                ${result.text}
+            </div>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* -------------------------------------------------------
+   PROMPT CONSTRUCTION
+------------------------------------------------------- */
+
+function buildPrompt(query, results) {
+
+    const k = Number(topK.value);
+
+    const selected =
+        results
+        .filter(r =>
+            r.score >= Number(threshold.value)
+        )
+        .slice(0, k);
+
+    let context = selected
+        .map(
+            r => `[Chunk ${r.id}]\n${r.text}`
+        )
+        .join("\n\n");
+
+    return `SYSTEM:
+Answer the user's question using only the
+provided context.
+
+If the context does not contain enough information,
+say that there is insufficient information.
+
+Separate facts from assumptions.
+
+CONTEXT:
+${context}
+
+USER QUESTION:
+${query}
+
+INSTRUCTION:
+Generate a concise, grounded answer.`;
+
+}
+
+
+/* -------------------------------------------------------
+   SIMULATED LLM
+------------------------------------------------------- */
+
+function generateAnswer(query, results) {
+
+    const q = query.toLowerCase();
+
+    const relevant =
+        results.filter(r =>
+            r.score >= Number(threshold.value)
+        );
+
+    if (relevant.length === 0) {
+
+        return {
+            text:
+                "I don't have enough relevant information in the retrieved context to answer this question reliably.",
+            grounding: 0.45,
+            coverage: 0.20
+        };
+
+    }
+
+    let answer = "";
+
+    if (
+        q.includes("remote") ||
+        q.includes("work")
+    ) {
+
+        answer =
+            `Employees may work remotely up to ` +
+            `<span class="fact">three days per week</span>, ` +
+            `subject to manager approval and team requirements. ` +
+            `Remote employees must also remain available during ` +
+            `<span class="fact">core hours of 10:00 AM to 4:00 PM</span>. ` +
+            `Managers may modify arrangements based on business and operational needs.`;
+
+    } else {
+
+        answer =
+            "Based on the retrieved context, the available information is limited. " +
+            "The system should avoid making unsupported assumptions.";
+
+    }
+
+    return {
+        text: answer,
+        grounding: Math.min(
+            0.70 + relevant.length * 0.07,
+            0.97
+        ),
+        coverage: Math.min(
+            0.65 + relevant.length * 0.08,
+            0.96
+        )
+    };
+
+}
+
+
+/* -------------------------------------------------------
+   EVALUATION
+------------------------------------------------------- */
+
+function evaluate(results, answerData) {
+
+    const k = Number(topK.value);
+
+    const selected =
+        results
+        .slice(0, k)
+        .filter(r =>
+            r.score >= Number(threshold.value)
+        );
+
+    const retrieval =
+        selected.length === 0
+            ? 0
+            : Math.min(
+                selected.reduce(
+                    (sum, r) => sum + r.score,
+                    0
+                ) / selected.length,
+                0.98
+            );
+
+    const grounding = answerData.grounding;
+
+    const coverage = answerData.coverage;
+
+    const overall =
+        (
+            retrieval +
+            grounding +
+            coverage
+        ) / 3;
+
+    return {
+        retrieval,
+        grounding,
+        coverage,
+        overall
+    };
+
+}
+
+
+/* -------------------------------------------------------
+   MAIN PIPELINE
+------------------------------------------------------- */
+
+function runRAG() {
+
+    const question =
+        document.getElementById("question").value;
+
+    if (!question.trim()) return;
+
+
+    /* Document */
+
+    activate("document");
+
+
+    /* Chunking */
+
+    setTimeout(() => {
+
+        activate("chunk");
+
+        renderChunks();
+
+    }, 250);
+
+
+    /* Embedding */
+
+    setTimeout(() => {
+
+        activate("embedding");
+
+        renderVectors();
+
+    }, 500);
+
+
+    /* Vector DB */
+
+    setTimeout(() => {
+
+        activate("db");
+
+    }, 750);
+
+
+    /* Query */
+
+    setTimeout(() => {
+
+        activate("query");
+
+        document.getElementById(
+            "queryDisplay"
+        ).textContent = question;
+
+    }, 1000);
+
+
+    /* Retrieval */
+
+    setTimeout(() => {
+
+        activate("retrieve");
+
+        const results =
+            retrieve(question);
+
+        window.currentResults = results;
+
+        renderRetrieval(results);
+
+    }, 1250);
+
+
+    /* Rerank */
+
+    setTimeout(() => {
+
+        activate("rerank");
+
+        const reranked =
+            rerank(window.currentResults);
+
+        window.currentReranked =
+            reranked;
+
+        renderRerank(reranked);
+
+    }, 1500);
+
+
+    /* LLM */
+
+    setTimeout(() => {
+
+        activate("llm");
+
+        const prompt =
+            buildPrompt(
+                question,
+                window.currentReranked
+            );
+
+        document.getElementById(
+            "prompt"
+        ).textContent = prompt;
+
+        const answer =
+            generateAnswer(
+                question,
+                window.currentReranked
+            );
+
+        window.currentAnswer =
+            answer;
+
+        document.getElementById(
+            "answer"
+        ).innerHTML = answer.text;
+
+    }, 1800);
+
+
+    /* Evaluation */
+
+    setTimeout(() => {
+
+        activate("eval");
+
+        const scores =
+            evaluate(
+                window.currentReranked,
+                window.currentAnswer
+            );
+
+        document.getElementById(
+            "retrievalScore"
+        ).textContent =
+            Math.round(scores.retrieval * 100) + "%";
+
+        document.getElementById(
+            "groundingScore"
+        ).textContent =
+            Math.round(scores.grounding * 100) + "%";
+
+        document.getElementById(
+            "contextScore"
+        ).textContent =
+            Math.round(scores.coverage * 100) + "%";
+
+        document.getElementById(
+            "overallScore"
+        ).textContent =
+            Math.round(scores.overall * 100) + "%";
+
+    }, 2200);
+
+}
+
+
+/* Initial state */
+
+renderChunks();
+renderVectors();
+
+</script>
+
+</body>
+</html>
+```
