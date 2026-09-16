@@ -1,0 +1,1399 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CricPulse — Cricket Intelligence</title>
+
+<style>
+:root {
+    --navy: #0b1f3a;
+    --navy2: #102b4f;
+    --blue: #087fce;
+    --light-blue: #eaf5fc;
+    --green: #1b8a5a;
+    --red: #d64545;
+    --orange: #f39c12;
+    --text: #17202a;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --bg: #f4f6f8;
+    --white: #ffffff;
+    --shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+/* ================= HEADER ================= */
+
+.top-header {
+    background: var(--navy);
+    color: white;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    gap: 30px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    white-space: nowrap;
+}
+
+.logo span {
+    color: #39a9f4;
+}
+
+.main-nav {
+    display: flex;
+    gap: 26px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.main-nav a {
+    color: #dce7f2;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.main-nav a:hover {
+    color: white;
+}
+
+.header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.18);
+    color: white;
+    border-radius: 20px;
+    padding: 9px 15px;
+    width: 180px;
+    outline: none;
+}
+
+.search::placeholder {
+    color: #b8c6d5;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #2d91cc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+/* ================= SECOND NAV ================= */
+
+.sub-nav {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    font-size: 13px;
+}
+
+.sub-nav span {
+    cursor: pointer;
+    color: #4b5563;
+}
+
+.sub-nav span.active {
+    color: var(--blue);
+    font-weight: bold;
+}
+
+/* ================= LIVE SCORES ================= */
+
+.score-bar {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+}
+
+.score-inner {
+    display: flex;
+    min-width: max-content;
+    padding: 10px 32px;
+    gap: 12px;
+}
+
+.score-card {
+    width: 245px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 9px 12px;
+    background: white;
+}
+
+.score-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 7px;
+}
+
+.live {
+    color: var(--red);
+    font-weight: bold;
+}
+
+.team-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin: 4px 0;
+}
+
+.score {
+    font-weight: bold;
+}
+
+.status {
+    font-size: 11px;
+    color: var(--green);
+    margin-top: 5px;
+}
+
+/* ================= PAGE ================= */
+
+.container {
+    max-width: 1320px;
+    margin: auto;
+    padding: 25px 32px 60px;
+}
+
+.page-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+    gap: 24px;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+    background: linear-gradient(135deg, #092442, #1268a3);
+    border-radius: 8px;
+    padding: 27px;
+    color: white;
+    margin-bottom: 22px;
+}
+
+.hero-tag {
+    font-size: 11px;
+    font-weight: bold;
+    color: #7dd3fc;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+}
+
+.hero h1 {
+    margin: 10px 0;
+    font-size: 30px;
+    max-width: 650px;
+}
+
+.hero p {
+    color: #d7e7f5;
+    line-height: 1.5;
+    max-width: 680px;
+}
+
+.hero button {
+    background: white;
+    border: 0;
+    color: var(--navy);
+    padding: 11px 17px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ================= SECTION ================= */
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 0 13px;
+}
+
+.section-title h2 {
+    font-size: 19px;
+    margin: 0;
+}
+
+.section-title a {
+    color: var(--blue);
+    font-size: 12px;
+}
+
+/* ================= NEWS ================= */
+
+.news-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 15px;
+}
+
+.news-card {
+    background: white;
+    border-radius: 7px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+}
+
+.news-image {
+    height: 180px;
+    background:
+        linear-gradient(135deg, rgba(8,127,206,.8), rgba(11,31,58,.95)),
+        radial-gradient(circle at 30% 30%, #ddd, transparent 35%);
+    display: flex;
+    align-items: flex-end;
+    padding: 15px;
+    color: white;
+    font-size: 12px;
+}
+
+.news-card.small .news-image {
+    height: 105px;
+}
+
+.news-content {
+    padding: 13px;
+}
+
+.news-content h3 {
+    font-size: 16px;
+    margin: 0 0 7px;
+    line-height: 1.3;
+}
+
+.news-card.small h3 {
+    font-size: 14px;
+}
+
+.news-content p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* ================= MATCH CARD ================= */
+
+.match-card {
+    background: white;
+    border-radius: 7px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+}
+
+.match-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 15px;
+}
+
+.match-teams {
+    display: grid;
+    grid-template-columns: 1fr 50px 1fr;
+    align-items: center;
+    text-align: center;
+}
+
+.team {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.team-score {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 7px;
+}
+
+.overs {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: normal;
+}
+
+.vs {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.match-result {
+    margin-top: 17px;
+    background: #edf8f2;
+    color: var(--green);
+    padding: 9px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* ================= AI CARD ================= */
+
+.ai-card {
+    margin-top: 18px;
+    background: white;
+    border: 1px solid #cfe7f7;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.ai-header {
+    background: var(--light-blue);
+    padding: 14px 17px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-title {
+    font-weight: bold;
+    font-size: 14px;
+    color: #075985;
+}
+
+.ai-badge {
+    font-size: 9px;
+    background: #d7effc;
+    color: #075985;
+    padding: 4px 7px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.ai-body {
+    padding: 17px;
+}
+
+.ai-question {
+    font-size: 13px;
+    color: #374151;
+    margin-bottom: 14px;
+}
+
+.ai-driver {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.driver-number {
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: #e6f3fb;
+    color: var(--blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.driver h4 {
+    margin: 0 0 3px;
+    font-size: 13px;
+}
+
+.driver p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.fact {
+    display: inline-block;
+    font-size: 9px;
+    color: var(--green);
+    background: #e9f7ef;
+    padding: 3px 5px;
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
+.inference {
+    display: inline-block;
+    font-size: 9px;
+    color: #9a6700;
+    background: #fff6dd;
+    padding: 3px 5px;
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
+.ai-footer {
+    border-top: 1px solid var(--border);
+    padding: 12px 17px;
+    display: flex;
+    gap: 8px;
+}
+
+.ai-footer input {
+    flex: 1;
+    border: 1px solid var(--border);
+    padding: 9px 11px;
+    border-radius: 4px;
+    outline: none;
+    font-size: 12px;
+}
+
+.ai-footer button {
+    border: 0;
+    background: var(--blue);
+    color: white;
+    padding: 9px 13px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar-card {
+    background: white;
+    border-radius: 7px;
+    padding: 17px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+}
+
+.sidebar-card h3 {
+    font-size: 16px;
+    margin: 0 0 15px;
+}
+
+.ranking-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+
+.ranking-row:last-child {
+    border-bottom: none;
+}
+
+.rank {
+    color: var(--muted);
+    width: 25px;
+}
+
+.player {
+    flex: 1;
+    font-weight: 600;
+}
+
+.rating {
+    font-weight: bold;
+}
+
+/* ================= SERIES ================= */
+
+.series-card {
+    background: white;
+    padding: 15px;
+    border-radius: 7px;
+    box-shadow: var(--shadow);
+    margin-bottom: 10px;
+}
+
+.series-title {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.series-meta {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+/* ================= MODAL ================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 18, 32, .7);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-box {
+    background: white;
+    width: min(700px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 9px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+
+.modal-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.close {
+    border: none;
+    background: none;
+    font-size: 25px;
+    cursor: pointer;
+    color: var(--muted);
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.explanation-box {
+    background: #f7fafc;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.explanation-box h4 {
+    margin: 0 0 7px;
+    font-size: 13px;
+}
+
+.explanation-box p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #4b5563;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width: 900px) {
+    .page-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-nav {
+        display: none;
+    }
+
+    .news-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+}
+
+@media(max-width: 600px) {
+    .top-header {
+        padding: 0 15px;
+    }
+
+    .search {
+        width: 120px;
+    }
+
+    .sub-nav {
+        padding: 0 15px;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .score-inner {
+        padding: 10px 15px;
+    }
+
+    .container {
+        padding: 18px 15px 40px;
+    }
+
+    .hero h1 {
+        font-size: 24px;
+    }
+
+    .sidebar {
+        display: block;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="top-header">
+
+    <div class="logo">
+        ESPN<span>cricinfo</span>
+    </div>
+
+    <nav class="main-nav">
+        <a>Home</a>
+        <a>Matches</a>
+        <a>Series</a>
+        <a>Teams</a>
+        <a>News</a>
+        <a>Stats</a>
+    </nav>
+
+    <div class="header-actions">
+        <input
+            class="search"
+            id="searchInput"
+            placeholder="Search cricket..."
+            onkeyup="searchSite(event)"
+        >
+        <div class="avatar">A</div>
+    </div>
+
+</header>
+
+<!-- ================= SUB NAV ================= -->
+
+<div class="sub-nav">
+    <span class="active">Cricket Home</span>
+    <span>Live Scores</span>
+    <span>Schedule</span>
+    <span>Results</span>
+    <span>Rankings</span>
+    <span>Records</span>
+    <span>Stats</span>
+</div>
+
+<!-- ================= SCORE STRIP ================= -->
+
+<div class="score-bar">
+
+    <div class="score-inner">
+
+        <div class="score-card">
+            <div class="score-header">
+                <span>IND vs AUS · 3rd ODI</span>
+                <span class="live">LIVE</span>
+            </div>
+
+            <div class="team-row">
+                <span>India</span>
+                <span class="score">247/6</span>
+            </div>
+
+            <div class="team-row">
+                <span>Australia</span>
+                <span class="score">Target 289</span>
+            </div>
+
+            <div class="status">India need 42 runs</div>
+        </div>
+
+        <div class="score-card">
+            <div class="score-header">
+                <span>ENG vs SA · Test</span>
+                <span>Day 2</span>
+            </div>
+
+            <div class="team-row">
+                <span>England</span>
+                <span class="score">312/8</span>
+            </div>
+
+            <div class="team-row">
+                <span>South Africa</span>
+                <span class="score">287</span>
+            </div>
+
+            <div class="status">England lead by 25</div>
+        </div>
+
+        <div class="score-card">
+            <div class="score-header">
+                <span>PAK vs NZ · T20I</span>
+                <span>Upcoming</span>
+            </div>
+
+            <div class="team-row">
+                <span>Pakistan</span>
+                <span>8:00 PM</span>
+            </div>
+
+            <div class="team-row">
+                <span>New Zealand</span>
+                <span>Today</span>
+            </div>
+
+            <div class="status">Match starts in 2h</div>
+        </div>
+
+        <div class="score-card">
+            <div class="score-header">
+                <span>WI vs SL · T20I</span>
+                <span>Result</span>
+            </div>
+
+            <div class="team-row">
+                <span>West Indies</span>
+                <span class="score">184/5</span>
+            </div>
+
+            <div class="team-row">
+                <span>Sri Lanka</span>
+                <span class="score">171/8</span>
+            </div>
+
+            <div class="status">West Indies won by 13 runs</div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+<div class="page-grid">
+
+<section>
+
+    <!-- HERO -->
+
+    <div class="hero">
+
+        <div class="hero-tag">
+            Cricket Intelligence
+        </div>
+
+        <h1>
+            Understand the game beyond the scorecard.
+        </h1>
+
+        <p>
+            Follow matches, news and statistics — then quickly understand
+            what actually changed the game.
+        </p>
+
+        <button onclick="openAI()">
+            Explore Match Insights →
+        </button>
+
+    </div>
+
+
+    <!-- TOP NEWS -->
+
+    <div class="section-title">
+        <h2>Top Stories</h2>
+        <a>View all</a>
+    </div>
+
+    <div class="news-grid">
+
+        <article class="news-card">
+
+            <div class="news-image">
+                INDIA vs AUSTRALIA
+            </div>
+
+            <div class="news-content">
+
+                <h3>
+                    India lose momentum as Australia tighten the middle overs
+                </h3>
+
+                <p>
+                    A change in bowling strategy has slowed India's scoring rate
+                    during the middle phase.
+                </p>
+
+            </div>
+
+        </article>
+
+
+        <div>
+
+            <article class="news-card small">
+
+                <div class="news-image">
+                    TEST CRICKET
+                </div>
+
+                <div class="news-content">
+
+                    <h3>
+                        England build steady first-innings lead
+                    </h3>
+
+                    <p>
+                        Day 2 analysis and score updates.
+                    </p>
+
+                </div>
+
+            </article>
+
+            <br>
+
+            <article class="news-card small">
+
+                <div class="news-image">
+                    T20 WORLD
+                </div>
+
+                <div class="news-content">
+
+                    <h3>
+                        New Zealand announce squad for upcoming series
+                    </h3>
+
+                    <p>
+                        Latest team news and selection updates.
+                    </p>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+
+    <!-- MATCH -->
+
+    <div class="section-title">
+        <h2>Featured Match</h2>
+        <a>Scorecard</a>
+    </div>
+
+    <div class="match-card">
+
+        <div class="match-meta">
+            <span>3rd ODI · Ahmedabad</span>
+            <span>LIVE</span>
+        </div>
+
+        <div class="match-teams">
+
+            <div>
+                <div class="team">India</div>
+                <div class="team-score">
+                    247/6
+                </div>
+                <div class="overs">
+                    46.2 overs
+                </div>
+            </div>
+
+            <div class="vs">
+                VS
+            </div>
+
+            <div>
+                <div class="team">Australia</div>
+                <div class="team-score">
+                    288
+                </div>
+                <div class="overs">
+                    50 overs
+                </div>
+            </div>
+
+        </div>
+
+        <div class="match-result">
+            India need 42 runs from 22 balls
+        </div>
+
+    </div>
+
+
+    <!-- AI INSIGHT -->
+
+    <div class="ai-card">
+
+        <div class="ai-header">
+
+            <div class="ai-title">
+                ✦ AI Match Insight
+            </div>
+
+            <div class="ai-badge">
+                EVIDENCE-BASED
+            </div>
+
+        </div>
+
+        <div class="ai-body">
+
+            <div class="ai-question">
+                Why is India struggling to chase this target?
+            </div>
+
+
+            <div class="ai-driver">
+
+                <div class="driver-number">
+                    1
+                </div>
+
+                <div class="driver">
+
+                    <h4>
+                        Middle-over scoring has slowed
+                    </h4>
+
+                    <p>
+                        India scored 54 runs between overs 30–40,
+                        compared with Australia's average of 68
+                        in the same phase across this series.
+                    </p>
+
+                    <span class="fact">
+                        FACT · MATCH DATA
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="ai-driver">
+
+                <div class="driver-number">
+                    2
+                </div>
+
+                <div class="driver">
+
+                    <h4>
+                        Australia's spin attack reduced boundary frequency
+                    </h4>
+
+                    <p>
+                        India hit only 2 boundaries against spin
+                        between overs 30–40.
+                    </p>
+
+                    <span class="fact">
+                        FACT · MATCH DATA
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="ai-driver">
+
+                <div class="driver-number">
+                    3
+                </div>
+
+                <div class="driver">
+
+                    <h4>
+                        Required run rate has increased sharply
+                    </h4>
+
+                    <p>
+                        India's required rate has moved from
+                        7.8 to 11.45 runs per over.
+                    </p>
+
+                    <span class="inference">
+                        INFERENCE · CALCULATED
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="ai-footer">
+
+            <input
+                id="aiQuestion"
+                placeholder="Ask about this match..."
+            >
+
+            <button onclick="askAI()">
+                Ask
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- SERIES -->
+
+    <div class="section-title">
+        <h2>Featured Series</h2>
+        <a>All series</a>
+    </div>
+
+    <div class="series-card">
+
+        <div class="series-title">
+            India tour of Australia
+        </div>
+
+        <div class="series-meta">
+            3 ODIs · 2 Tests · 1 T20I
+        </div>
+
+    </div>
+
+    <div class="series-card">
+
+        <div class="series-title">
+            England vs South Africa
+        </div>
+
+        <div class="series-meta">
+            3 Tests · 5 T20Is
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-card">
+
+        <h3>ICC Rankings</h3>
+
+        <div class="ranking-row">
+            <span class="rank">1</span>
+            <span class="player">Shubman Gill</span>
+            <span class="rating">824</span>
+        </div>
+
+        <div class="ranking-row">
+            <span class="rank">2</span>
+            <span class="player">Babar Azam</span>
+            <span class="rating">811</span>
+        </div>
+
+        <div class="ranking-row">
+            <span class="rank">3</span>
+            <span class="player">Virat Kohli</span>
+            <span class="rating">798</span>
+        </div>
+
+        <div class="ranking-row">
+            <span class="rank">4</span>
+            <span class="player">Joe Root</span>
+            <span class="rating">790</span>
+        </div>
+
+        <div class="ranking-row">
+            <span class="rank">5</span>
+            <span class="player">Rohit Sharma</span>
+            <span class="rating">776</span>
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-card">
+
+        <h3>Latest Updates</h3>
+
+        <div class="ranking-row">
+            <span class="player">
+                Australia win toss and bowl first
+            </span>
+        </div>
+
+        <div class="ranking-row">
+            <span class="player">
+                Gill reaches fifty from 43 balls
+            </span>
+        </div>
+
+        <div class="ranking-row">
+            <span class="player">
+                India lose two wickets in five overs
+            </span>
+        </div>
+
+        <div class="ranking-row">
+            <span class="player">
+                Spin introduced from both ends
+            </span>
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-card">
+
+        <h3>Trending</h3>
+
+        <div class="ranking-row">
+            <span class="player">
+                #INDvsAUS
+            </span>
+        </div>
+
+        <div class="ranking-row">
+            <span class="player">
+                #WTC
+            </span>
+        </div>
+
+        <div class="ranking-row">
+            <span class="player">
+                #T20WorldCup
+            </span>
+        </div>
+
+    </div>
+
+</aside>
+
+</div>
+
+</main>
+
+
+<!-- ================= AI MODAL ================= -->
+
+<div class="modal" id="aiModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                AI Match Intelligence
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeAI()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-content">
+
+            <div class="explanation-box">
+
+                <h4>
+                    What changed?
+                </h4>
+
+                <p>
+                    India's scoring rate dropped significantly during
+                    overs 30–40 while Australia's spin attack restricted
+                    boundary opportunities.
+                </p>
+
+            </div>
+
+
+            <div class="explanation-box">
+
+                <h4>
+                    Evidence
+                </h4>
+
+                <p>
+                    India scored 54 runs during overs 30–40 and hit
+                    only two boundaries against spin during that period.
+                </p>
+
+            </div>
+
+
+            <div class="explanation-box">
+
+                <h4>
+                    Context
+                </h4>
+
+                <p>
+                    The required run rate has now increased to
+                    11.45 runs per over, making boundary frequency
+                    increasingly important.
+                </p>
+
+            </div>
+
+
+            <div class="explanation-box">
+
+                <h4>
+                    AI confidence
+                </h4>
+
+                <p>
+                    High — explanation is supported by available
+                    match-level scoring and bowling data.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================= AI MODAL ================= */
+
+function openAI() {
+    document.getElementById("aiModal").style.display = "flex";
+}
+
+function closeAI() {
+    document.getElementById("aiModal").style.display = "none";
+}
+
+window.onclick = function(event) {
+
+    const modal = document.getElementById("aiModal");
+
+    if (event.target === modal) {
+        closeAI();
+    }
+
+}
+
+
+/* ================= AI QUESTION ================= */
+
+function askAI() {
+
+    const input = document.getElementById("aiQuestion");
+    const question = input.value.trim();
+
+    if (!question) {
+        alert("Enter a question about the match.");
+        return;
+    }
+
+    const existing = document.querySelector(".ai-body");
+
+    const answer = document.createElement("div");
+
+    answer.style.marginTop = "15px";
+    answer.style.padding = "12px";
+    answer.style.background = "#f4f8fb";
+    answer.style.borderRadius = "5px";
+    answer.style.fontSize = "12px";
+    answer.style.lineHeight = "1.5";
+
+    answer.innerHTML = `
+        <strong>AI response</strong><br><br>
+        Based on the available match data, the strongest signal is
+        India's reduced scoring rate during the middle overs.
+        <br><br>
+        <span class="fact">SUPPORTED BY MATCH DATA</span>
+    `;
+
+    existing.appendChild(answer);
+
+    input.value = "";
+}
+
+
+/* ================= SEARCH ================= */
+
+function searchSite(event) {
+
+    if (event.key !== "Enter") {
+        return;
+    }
+
+    const query =
+        document.getElementById("searchInput").value.trim();
+
+    if (!query) {
+        return;
+    }
+
+    alert(
+        "Search prototype\n\nSearching cricket content for: " +
+        query
+    );
+
+}
+
+</script>
+
+</body>
+</html>
+```
