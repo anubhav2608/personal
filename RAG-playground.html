@@ -1,0 +1,747 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG Playground</title>
+
+<style>
+:root {
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --text: #172033;
+  --muted: #6b7280;
+  --border: #e2e8f0;
+  --accent: #4f46e5;
+  --accent-light: #eef2ff;
+  --green: #15803d;
+  --orange: #c2410c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  background: #111827;
+  color: white;
+  padding: 24px 5%;
+}
+
+header h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+}
+
+header p {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: auto;
+  padding: 24px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 18px;
+}
+
+h2 {
+  font-size: 17px;
+  margin: 0 0 16px;
+}
+
+h3 {
+  font-size: 14px;
+  margin: 0 0 10px;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  color: var(--text);
+}
+
+textarea {
+  min-height: 105px;
+  resize: vertical;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+small, .muted {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 11px 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.primary {
+  background: var(--accent);
+  color: white;
+}
+
+.secondary {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.full {
+  width: 100%;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.stat {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 25px;
+  margin-top: 8px;
+}
+
+.pipeline {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.pipeline span {
+  background: var(--accent-light);
+  color: var(--accent);
+  padding: 9px 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pipeline b {
+  color: #94a3b8;
+}
+
+.chunk {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 12px;
+  background: #fff;
+}
+
+.chunk-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.badge {
+  background: #f1f5f9;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #475569;
+}
+
+.score {
+  font-weight: 700;
+  color: var(--green);
+}
+
+.chunk p {
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.bar {
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.bar div {
+  height: 100%;
+  background: var(--accent);
+}
+
+.empty {
+  padding: 28px;
+  text-align: center;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.file-list {
+  margin-top: 12px;
+}
+
+.file-item {
+  font-size: 12px;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  margin-top: 7px;
+  overflow-wrap: anywhere;
+}
+
+.answer {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  padding: 16px;
+  line-height: 1.65;
+  font-size: 14px;
+}
+
+.notice {
+  padding: 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #9a3412;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 850px) {
+  .layout { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>RAG Playground</h1>
+  <p>Experiment with document chunking, retrieval, and relevance parameters.</p>
+</header>
+
+<div class="container">
+
+  <div class="notice">
+    <strong>Learning simulator:</strong>
+    This version uses keyword-based similarity, not vector embeddings.
+    The answer is assembled from retrieved text; no LLM is connected.
+  </div>
+
+  <div class="pipeline">
+    <span>1. Documents</span><b>→</b>
+    <span>2. Chunking</span><b>→</b>
+    <span>3. Similarity Search</span><b>→</b>
+    <span>4. Top-K Results</span><b>→</b>
+    <span>5. Answer</span>
+  </div>
+
+  <div class="layout">
+
+    <!-- LEFT: SETTINGS -->
+    <aside>
+
+      <div class="card">
+        <h2>Knowledge Base</h2>
+
+        <div class="field">
+          <label for="files">Upload TXT or Markdown files</label>
+          <input type="file" id="files" accept=".txt,.md,text/plain" multiple>
+        </div>
+
+        <button class="secondary full" id="sampleBtn" type="button">
+          Load Sample Verification Rules
+        </button>
+
+        <div id="fileList" class="file-list">
+          <p class="muted">No documents loaded yet.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Chunking Parameters</h2>
+
+        <div class="field">
+          <label for="chunkSize">Chunk size (characters)</label>
+          <select id="chunkSize">
+            <option value="300">300</option>
+            <option value="600" selected>600</option>
+            <option value="1000">1,000</option>
+            <option value="1500">1,500</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="overlap">Chunk overlap (characters)</label>
+          <select id="overlap">
+            <option value="0">0</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+          </select>
+        </div>
+
+        <button class="primary full" id="chunkBtn" type="button">
+          Create Chunks
+        </button>
+      </div>
+
+      <div class="card">
+        <h2>Retrieval Parameters</h2>
+
+        <div class="field">
+          <label for="topK">Top-K results</label>
+          <select id="topK">
+            <option value="1">1</option>
+            <option value="3" selected>3</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="threshold">
+            Minimum keyword similarity:
+            <span id="thresholdValue">10</span>%
+          </label>
+          <input type="range" id="threshold" min="0" max="80" value="10">
+        </div>
+
+        <button class="secondary full" id="rebuildBtn" type="button">
+          Rebuild Chunks & Settings
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- RIGHT: WORKSPACE -->
+    <main>
+
+      <div class="stats">
+        <div class="stat">
+          <span class="muted">Documents</span>
+          <strong id="docCount">0</strong>
+        </div>
+        <div class="stat">
+          <span class="muted">Chunks created</span>
+          <strong id="chunkCount">0</strong>
+        </div>
+        <div class="stat">
+          <span class="muted">Retrieved results</span>
+          <strong id="resultCount">0</strong>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Ask Your Knowledge Base</h2>
+
+        <div class="field">
+          <label for="question">Enter your question</label>
+          <textarea id="question">Can attendance alone confirm graduation?</textarea>
+        </div>
+
+        <button class="primary" id="searchBtn" type="button">
+          Retrieve Relevant Chunks
+        </button>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+          <h2>Retrieved Chunks</h2>
+          <span class="muted" id="retrievalInfo">Waiting for a query</span>
+        </div>
+
+        <div id="results">
+          <div class="empty">
+            Upload documents or load sample rules, then run a query.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Answer Preview</h2>
+        <p class="muted">
+          This is an extractive preview based on retrieved text, not an LLM-generated answer.
+        </p>
+        <div id="answer" class="answer">
+          Your answer will appear here after retrieval.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Chunk Explorer</h2>
+        <p class="muted">
+          Inspect the chunks created from your knowledge base.
+        </p>
+        <div id="chunkExplorer">
+          <div class="empty">No chunks created yet.</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let documents = [];
+let chunks = [];
+let retrieved = [];
+
+const sampleDocs = [
+  {
+    name: "verification_rules.md",
+    text: `# Education Verification Rules
+
+## EDU-COMP-001: Completion Confirmation
+A student's degree completion can only be marked as Completed when the institution explicitly confirms successful completion of the degree.
+
+Attendance or enrollment alone does not establish degree completion.
+
+## EDU-COMP-002: Conflicting Evidence
+If the email and supporting document contain conflicting graduation dates, the case must be sent for manual review.
+
+## EDU-COMP-003: Missing Evidence
+If the institution does not provide evidence of successful completion, the system must not infer that the student graduated.`
+  },
+  {
+    name: "verification_status.md",
+    text: `# Verification Status Rules
+
+## STATUS-001: Verified
+A case can be marked Verified only when all required evidence is present and applicable verification rules are satisfied.
+
+## STATUS-002: Manual Review
+A case must be marked Manual Review Required when required information is missing, evidence conflicts, or the document cannot be reliably interpreted.
+
+## STATUS-003: Pending
+A case can be marked Pending when a response from the institution is still awaited.`
+  },
+  {
+    name: "document_rules.md",
+    text: `# Document Rules
+
+## DOC-001: Degree Certificate
+Extract student name, institution, degree title, and graduation date when clearly present on the certificate.
+
+## DOC-002: Transcript
+A transcript may provide academic information, but a transcript alone does not necessarily confirm successful degree completion.
+
+## DOC-003: Official Email
+An official institutional email may be used as verification evidence when it explicitly confirms the required information.`
+  }
+];
+
+function escapeHTML(str) {
+  return String(str).replace(/[&<>"']/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[c]);
+}
+
+function tokenize(text) {
+  return text.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, " ")
+    .split(/\s+/)
+    .filter(word => word.length > 2);
+}
+
+function uniqueWords(words) {
+  return [...new Set(words)];
+}
+
+function chunkText(text, size, overlap) {
+  const result = [];
+  let start = 0;
+
+  while (start < text.length) {
+    let end = Math.min(start + size, text.length);
+
+    if (end < text.length) {
+      const breakAt = text.lastIndexOf(" ", end);
+      if (breakAt > start + size * 0.6) end = breakAt;
+    }
+
+    const content = text.slice(start, end).trim();
+
+    if (content) {
+      result.push({
+        content,
+        start,
+        end
+      });
+    }
+
+    if (end >= text.length) break;
+
+    const nextStart = end - overlap;
+    start = nextStart > start ? nextStart : end;
+  }
+
+  return result;
+}
+
+function createChunks() {
+  const size = Number($("chunkSize").value);
+  const overlap = Number($("overlap").value);
+
+  if (overlap >= size) {
+    alert("Overlap must be smaller than chunk size.");
+    return;
+  }
+
+  chunks = [];
+
+  documents.forEach(doc => {
+    const parts = chunkText(doc.text, size, overlap);
+
+    parts.forEach((part, index) => {
+      chunks.push({
+        id: "CH-" + String(chunks.length + 1).padStart(3, "0"),
+        source: doc.name,
+        content: part.content,
+        start: part.start,
+        end: part.end,
+        tokens: uniqueWords(tokenize(part.content))
+      });
+    });
+  });
+
+  $("chunkCount").textContent = chunks.length;
+  $("resultCount").textContent = 0;
+
+  renderChunks();
+  $("results").innerHTML =
+    '<div class="empty">Chunks created. Enter a question and run retrieval.</div>';
+
+  $("answer").textContent = "Run a query to generate an extractive preview.";
+  $("retrievalInfo").textContent = "Chunks ready";
+}
+
+function renderFiles() {
+  $("docCount").textContent = documents.length;
+
+  if (!documents.length) {
+    $("fileList").innerHTML =
+      '<p class="muted">No documents loaded yet.</p>';
+    return;
+  }
+
+  $("fileList").innerHTML = documents.map(doc =>
+    `<div class="file-item">${escapeHTML(doc.name)}</div>`
+  ).join("");
+}
+
+function renderChunks() {
+  if (!chunks.length) {
+    $("chunkExplorer").innerHTML =
+      '<div class="empty">No chunks created yet.</div>';
+    return;
+  }
+
+  $("chunkExplorer").innerHTML = chunks.map(chunk => `
+    <div class="chunk">
+      <div class="chunk-header">
+        <strong>${escapeHTML(chunk.id)}</strong>
+        <span class="badge">${escapeHTML(chunk.source)}</span>
+      </div>
+      <p>${escapeHTML(chunk.content)}</p>
+      <div class="muted" style="margin-top:8px">
+        ${chunk.content.length} characters · ${chunk.tokens.length} unique terms
+      </div>
+    </div>
+  `).join("");
+}
+
+// Educational keyword-overlap score, NOT a vector similarity score.
+function similarity(query, text) {
+  const q = uniqueWords(tokenize(query));
+  const d = uniqueWords(tokenize(text));
+
+  if (!q.length || !d.length) return 0;
+
+  const dSet = new Set(d);
+  const matches = q.filter(word => dSet.has(word));
+
+  return Math.round((matches.length / q.length) * 100);
+}
+
+function retrieve() {
+  const query = $("question").value.trim();
+
+  if (!query) {
+    alert("Enter a question first.");
+    return;
+  }
+
+  if (!chunks.length) {
+    alert("Load documents and create chunks first.");
+    return;
+  }
+
+  const threshold = Number($("threshold").value);
+  const topK = Number($("topK").value);
+
+  retrieved = chunks.map(chunk => ({
+    ...chunk,
+    score: similarity(query, chunk.content)
+  }))
+  .filter(chunk => chunk.score >= threshold)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, topK);
+
+  $("resultCount").textContent = retrieved.length;
+  $("retrievalInfo").textContent =
+    `Top ${topK} · Threshold ${threshold}%`;
+
+  renderResults();
+  renderAnswer();
+}
+
+function renderResults() {
+  if (!retrieved.length) {
+    $("results").innerHTML = `
+      <div class="empty">
+        No chunks passed the similarity threshold.
+        Try lowering the threshold or changing your query.
+      </div>`;
+    return;
+  }
+
+  $("results").innerHTML = retrieved.map((chunk, index) => `
+    <div class="chunk">
+      <div class="chunk-header">
+        <strong>Rank ${index + 1} · ${escapeHTML(chunk.id)}</strong>
+        <span class="score">${chunk.score}% keyword overlap</span>
+      </div>
+
+      <div class="muted">${escapeHTML(chunk.source)}</div>
+
+      <div class="bar">
+        <div style="width:${chunk.score}%"></div>
+      </div>
+
+      <p style="margin-top:12px">${escapeHTML(chunk.content)}</p>
+    </div>
+  `).join("");
+}
+
+function renderAnswer() {
+  if (!retrieved.length) {
+    $("answer").textContent =
+      "No relevant evidence was retrieved. The system should not make a confident recommendation.";
+    return;
+  }
+
+  const evidence = retrieved
+    .slice(0, 3)
+    .map(chunk => chunk.content)
+    .join("\n\n");
+
+  $("answer").innerHTML = `
+    <strong>Retrieved evidence preview</strong>
+    <p style="white-space:pre-wrap">${escapeHTML(evidence)}</p>
+    <small>Sources: ${retrieved.map(c => escapeHTML(c.source)).filter((v,i,a)=>a.indexOf(v)===i).join(", ")}</small>
+  `;
+}
+
+$("files").addEventListener("change", async event => {
+  const files = Array.from(event.target.files || []);
+
+  for (const file of files) {
+    const text = await file.text();
+
+    if (text.trim()) {
+      documents.push({
+        name: file.name,
+        text
+      });
+    }
+  }
+
+  renderFiles();
+});
+
+$("sampleBtn").addEventListener("click", () => {
+  documents = sampleDocs.map(doc => ({ ...doc }));
+  renderFiles();
+  createChunks();
+});
+
+$("chunkBtn").addEventListener("click", createChunks);
+$("rebuildBtn").addEventListener("click", createChunks);
+$("searchBtn").addEventListener("click", retrieve);
+
+$("threshold").addEventListener("input", () => {
+  $("thresholdValue").textContent = $("threshold").value;
+});
+
+$("topK").addEventListener("change", retrieve);
+$("threshold").addEventListener("change", retrieve);
+$("chunkSize").addEventListener("change", createChunks);
+$("overlap").addEventListener("change", createChunks);
+</script>
+
+</body>
+</html>
+```
