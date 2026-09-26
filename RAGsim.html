@@ -4,10 +4,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAG Workbench</title>
+
+<title>RAG Learning Workbench</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
@@ -18,79 +21,91 @@ body{
 
 header{
     background:#111827;
-    color:white;
-    padding:22px 32px;
+    color:#fff;
+    padding:22px 30px;
 }
 
-header h1{margin:0;font-size:25px}
-header p{margin:7px 0 0;color:#aeb8ca;font-size:14px}
+header h1{
+    margin:0;
+    font-size:25px;
+}
+
+header p{
+    margin:7px 0 0;
+    color:#aeb8ca;
+    font-size:13px;
+}
 
 .layout{
     display:grid;
-    grid-template-columns:230px 1fr;
-    min-height:calc(100vh - 90px);
+    grid-template-columns:235px 1fr;
+    min-height:calc(100vh - 88px);
 }
 
 .sidebar{
     background:#fff;
     border-right:1px solid #e5e7eb;
-    padding:18px 12px;
+    padding:16px 12px;
 }
 
 .sidebar-title{
-    font-size:11px;
-    font-weight:700;
-    color:#8a94a6;
-    text-transform:uppercase;
+    padding:10px 12px 7px;
+    font-size:10px;
+    font-weight:800;
+    color:#9ca3af;
     letter-spacing:1px;
-    padding:8px 12px;
+    text-transform:uppercase;
 }
 
 .stage{
     padding:11px 12px;
-    border-radius:9px;
-    margin-bottom:4px;
+    margin:3px 0;
+    border-radius:8px;
     cursor:pointer;
     font-size:13px;
     color:#4b5563;
 }
 
-.stage:hover{background:#f3f4f6}
+.stage:hover{
+    background:#f3f4f6;
+}
 
 .stage.active{
     background:#111827;
-    color:white;
+    color:#fff;
 }
 
 .main{
-    padding:28px;
-    max-width:1500px;
     width:100%;
+    max-width:1500px;
+    padding:28px;
 }
 
-.stage-panel{display:none}
-.stage-panel.active{display:block}
+.stage-panel{
+    display:none;
+}
 
-.page-title{margin-bottom:22px}
-.page-title h2{margin:0;font-size:23px}
+.stage-panel.active{
+    display:block;
+}
+
+.page-title{
+    margin-bottom:22px;
+}
+
+.page-title h2{
+    margin:0;
+    font-size:23px;
+}
+
 .page-title p{
     margin:7px 0 0;
     color:#6b7280;
-    font-size:14px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:18px;
-}
-
-.grid-3{
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    font-size:13px;
 }
 
 .card{
-    background:white;
+    background:#fff;
     border:1px solid #e5e7eb;
     border-radius:13px;
     padding:18px;
@@ -103,24 +118,44 @@ header p{margin:7px 0 0;color:#aeb8ca;font-size:14px}
     font-size:16px;
 }
 
-.card-description{
+.description{
     color:#6b7280;
     font-size:12px;
     margin-bottom:15px;
 }
 
-input,select,textarea{
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:15px;
+}
+
+.grid-3{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+}
+
+label{
+    display:block;
+    font-size:11px;
+    font-weight:700;
+    color:#4b5563;
+    margin-bottom:6px;
+}
+
+input,
+select,
+textarea{
     width:100%;
-    border:1px solid #d8dee8;
-    border-radius:8px;
     padding:10px 12px;
+    border:1px solid #d7dce5;
+    border-radius:8px;
     font:inherit;
-    background:white;
+    background:#fff;
     color:#172033;
 }
 
 textarea{
-    min-height:110px;
+    min-height:120px;
     resize:vertical;
 }
 
@@ -128,13 +163,15 @@ button{
     border:0;
     border-radius:8px;
     padding:9px 14px;
-    font-weight:600;
-    cursor:pointer;
     background:#111827;
-    color:white;
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
 }
 
-button:hover{opacity:.9}
+button:hover{
+    opacity:.9;
+}
 
 button.secondary{
     background:#eef2f7;
@@ -143,7 +180,6 @@ button.secondary{
 
 button.danger{
     background:#dc2626;
-    color:white;
 }
 
 button.small{
@@ -154,8 +190,24 @@ button.small{
 .button-row{
     display:flex;
     gap:8px;
-    margin-top:12px;
     flex-wrap:wrap;
+    margin-top:13px;
+}
+
+.notice{
+    padding:12px 14px;
+    border-radius:9px;
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    color:#1e40af;
+    font-size:12px;
+    margin-bottom:16px;
+}
+
+.notice.warning{
+    background:#fff7ed;
+    border-color:#fed7aa;
+    color:#9a3412;
 }
 
 .document-row{
@@ -167,112 +219,106 @@ button.small{
     border-bottom:1px solid #edf0f4;
 }
 
-.document-row:last-child{border-bottom:0}
+.document-row:last-child{
+    border-bottom:0;
+}
 
-.document-main{
+.document-info{
     min-width:0;
     flex:1;
 }
 
 .document-name{
-    font-weight:700;
     font-size:13px;
+    font-weight:800;
 }
 
 .document-meta{
+    margin-top:4px;
     font-size:11px;
     color:#7b8494;
-    margin-top:4px;
 }
 
 .document-actions{
     display:flex;
     align-items:center;
     gap:7px;
-    flex-shrink:0;
 }
 
 .badge{
     display:inline-block;
-    border-radius:999px;
     padding:4px 8px;
+    border-radius:999px;
     font-size:10px;
-    font-weight:700;
+    font-weight:800;
 }
 
-.badge-green{
+.green{
     background:#dcfce7;
     color:#166534;
 }
 
-.badge-blue{
+.blue{
     background:#dbeafe;
     color:#1d4ed8;
 }
 
-.badge-orange{
+.orange{
     background:#ffedd5;
     color:#c2410c;
+}
+
+.stat{
+    background:#f8fafc;
+    border:1px solid #edf0f4;
+    border-radius:10px;
+    padding:15px;
+}
+
+.stat-label{
+    font-size:10px;
+    color:#7b8494;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+.stat-value{
+    font-size:24px;
+    font-weight:800;
+    margin-top:5px;
 }
 
 .empty{
     padding:28px;
     text-align:center;
+    border:1px dashed #d6dce5;
+    border-radius:9px;
     color:#9ca3af;
-    font-size:13px;
-    border:1px dashed #d8dee8;
-    border-radius:10px;
-}
-
-.stat{
-    padding:15px;
-    border-radius:10px;
-    background:#f8fafc;
-    border:1px solid #edf0f4;
-}
-
-.stat-label{
-    font-size:11px;
-    color:#7b8494;
-}
-
-.stat-value{
-    font-size:23px;
-    font-weight:800;
-    margin-top:5px;
+    font-size:12px;
 }
 
 .chunk{
+    background:#fafbfc;
     border:1px solid #e4e8ef;
     border-radius:9px;
-    padding:12px;
+    padding:13px;
     margin-bottom:9px;
-    background:#fafbfc;
 }
 
 .chunk-header{
     display:flex;
     justify-content:space-between;
     gap:10px;
-    font-size:11px;
-    color:#6b7280;
-    margin-bottom:7px;
+    margin-bottom:8px;
+    font-size:10px;
+    color:#7b8494;
 }
 
 .chunk-text{
     font-size:12px;
-    line-height:1.55;
+    line-height:1.6;
     color:#374151;
-}
-
-.embedding{
-    font-family:monospace;
-    font-size:11px;
-    background:#111827;
-    color:#d1d5db;
-    padding:10px;
-    border-radius:7px;
-    overflow-x:auto;
+    white-space:pre-wrap;
 }
 
 .result{
@@ -286,72 +332,49 @@ button.small{
     display:flex;
     justify-content:space-between;
     gap:10px;
-    margin-bottom:7px;
 }
 
 .score{
     font-weight:800;
-    font-size:12px;
 }
 
-.prompt-box,
-.answer-box{
-    white-space:pre-wrap;
+.codebox{
     background:#111827;
-    color:#e5e7eb;
-    border-radius:9px;
+    color:#d1d5db;
     padding:15px;
-    font-family:monospace;
-    font-size:12px;
-    line-height:1.6;
-    overflow-x:auto;
-}
-
-.answer-box{
-    background:#f8fafc;
-    color:#172033;
-    border:1px solid #e5e7eb;
-    font-family:Inter,Arial,sans-serif;
-}
-
-.notice{
-    padding:12px 14px;
-    border-radius:8px;
-    background:#eff6ff;
-    border:1px solid #bfdbfe;
-    color:#1e40af;
-    font-size:12px;
-    margin-bottom:15px;
-}
-
-.warning{
-    background:#fff7ed;
-    border-color:#fed7aa;
-    color:#9a3412;
-}
-
-.flow{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-.flow-step{
-    padding:7px 10px;
-    background:#eef2f7;
-    border-radius:7px;
+    border-radius:9px;
+    font-family:Consolas,monospace;
     font-size:11px;
-    font-weight:700;
+    line-height:1.6;
+    white-space:pre-wrap;
+    overflow:auto;
+}
+
+.answer{
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    padding:15px;
+    border-radius:9px;
+    font-size:13px;
+    line-height:1.6;
+    white-space:pre-wrap;
 }
 
 @media(max-width:900px){
-    .layout{grid-template-columns:1fr}
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
     .sidebar{
         border-right:0;
         border-bottom:1px solid #e5e7eb;
     }
-    .grid,.grid-3{grid-template-columns:1fr}
+
+    .grid,
+    .grid-3{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
@@ -359,75 +382,139 @@ button.small{
 <body>
 
 <header>
-    <h1>RAG Workbench</h1>
-    <p>Interactive browser-only simulator for understanding Retrieval-Augmented Generation end to end.</p>
+
+    <h1>RAG Learning Workbench</h1>
+
+    <p>
+        Interactive browser-only simulator for understanding
+        Retrieval-Augmented Generation.
+    </p>
+
 </header>
+
 
 <div class="layout">
 
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
 <aside class="sidebar">
 
-    <div class="sidebar-title">Pipeline</div>
+    <div class="sidebar-title">
+        RAG Pipeline
+    </div>
 
-    <div class="stage active" data-stage="ingest">01 · Ingest</div>
-    <div class="stage" data-stage="chunk">02 · Chunk</div>
-    <div class="stage" data-stage="embedding">03 · Embeddings</div>
-    <div class="stage" data-stage="vector">04 · Vector DB</div>
-    <div class="stage" data-stage="query">05 · Query</div>
-    <div class="stage" data-stage="retrieval">06 · Retrieval</div>
-    <div class="stage" data-stage="rerank">07 · Reranking</div>
-    <div class="stage" data-stage="prompt">08 · Prompt / Context</div>
-    <div class="stage" data-stage="llm">09 · LLM</div>
-    <div class="stage" data-stage="evaluation">10 · Evaluation</div>
+    <div class="stage active" data-stage="ingest">
+        01 · Ingest
+    </div>
 
-    <div class="sidebar-title" style="margin-top:18px;">
-        Data Lifecycle
+    <div class="stage" data-stage="chunk">
+        02 · Chunk
+    </div>
+
+    <div class="stage" data-stage="embedding">
+        03 · Embeddings
+    </div>
+
+    <div class="stage" data-stage="vector">
+        04 · Vector DB
+    </div>
+
+    <div class="stage" data-stage="query">
+        05 · Query
+    </div>
+
+    <div class="stage" data-stage="retrieval">
+        06 · Retrieval
+    </div>
+
+    <div class="stage" data-stage="rerank">
+        07 · Reranking
+    </div>
+
+    <div class="stage" data-stage="prompt">
+        08 · Prompt + Context
+    </div>
+
+    <div class="stage" data-stage="llm">
+        09 · LLM
+    </div>
+
+    <div class="stage" data-stage="evaluation">
+        10 · Evaluation
+    </div>
+
+    <div class="sidebar-title">
+        Lifecycle
     </div>
 
     <div class="stage" data-stage="refresh">
-        ↻ Refresh / Update
+        ↻ Data Refresh
     </div>
 
 </aside>
 
+
 <main class="main">
 
-<!-- ================================================= -->
-<!-- 01 INGEST -->
-<!-- ================================================= -->
 
-<section id="stage-ingest" class="stage-panel active">
+<!-- =====================================================
+     01 INGEST
+===================================================== -->
+
+<section
+    id="stage-ingest"
+    class="stage-panel active"
+>
 
 <div class="page-title">
+
     <h2>01 · Document Ingestion</h2>
-    <p>Bring source documents into the RAG system.</p>
+
+    <p>
+        Add the source documents that will become your RAG knowledge base.
+    </p>
+
 </div>
 
+
 <div class="notice">
-    This is your <strong>source-of-truth layer</strong>.
-    Documents enter the RAG pipeline here before chunking.
+
+    <strong>Source layer:</strong>
+    This is where your original documents enter the RAG pipeline.
+
 </div>
+
 
 <div class="card">
 
-    <h3>Upload source documents</h3>
+    <h3>Upload Documents</h3>
 
-    <div class="card-description">
-        Supported: TXT, MD, HTML, JSON and CSV.
+    <div class="description">
+
+        Supported:
+        TXT, Markdown, HTML, JSON and CSV.
+
     </div>
 
+
     <input
-        type="file"
         id="sourceFiles"
+        type="file"
         multiple
         accept=".txt,.md,.html,.json,.csv"
     >
 
+
     <div class="button-row">
 
-        <button onclick="loadDemoDocuments()">
+        <button
+            onclick="loadDemoDocuments()"
+        >
             Load Demo Documents
         </button>
+
 
         <button
             class="danger"
@@ -440,75 +527,161 @@ button.small{
 
 </div>
 
+
 <div class="grid grid-3">
 
     <div class="stat">
-        <div class="stat-label">Documents</div>
-        <div class="stat-value" id="documentCount">0</div>
+
+        <div class="stat-label">
+            Documents
+        </div>
+
+        <div
+            id="documentCount"
+            class="stat-value"
+        >
+            0
+        </div>
+
     </div>
 
-    <div class="stat">
-        <div class="stat-label">Chunks</div>
-        <div class="stat-value" id="chunkCount">0</div>
-    </div>
 
     <div class="stat">
-        <div class="stat-label">Vector Records</div>
-        <div class="stat-value" id="vectorCount">0</div>
+
+        <div class="stat-label">
+            Chunks
+        </div>
+
+        <div
+            id="chunkCount"
+            class="stat-value"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-label">
+            Vectors
+        </div>
+
+        <div
+            id="vectorCount"
+            class="stat-value"
+        >
+            0
+        </div>
+
     </div>
 
 </div>
 
+
 <div class="card">
 
-    <h3>Source Collection</h3>
+    <h3>Current Documents</h3>
 
-    <div class="card-description">
-        Each document has a unique ID so its downstream artifacts
-        can be traced back to the source.
-    </div>
-
-    <div id="sourceFileList"></div>
+    <div
+        id="sourceFileList"
+    ></div>
 
 </div>
 
 </section>
 
 
-<!-- ================================================= -->
-<!-- 02 CHUNK -->
-<!-- ================================================= -->
+<!-- =====================================================
+     02 CHUNK
+===================================================== -->
 
-<section id="stage-chunk" class="stage-panel">
+<section
+    id="stage-chunk"
+    class="stage-panel"
+>
 
 <div class="page-title">
+
     <h2>02 · Chunking</h2>
-    <p>Break documents into smaller retrievable units.</p>
+
+    <p>
+        Select a current document and split it into retrievable chunks.
+    </p>
+
 </div>
+
+
+<div class="notice">
+
+    <strong>Important:</strong>
+    Chunking operates only on documents currently present
+    in the document store.
+
+</div>
+
 
 <div class="card">
 
-    <h3>Choose source document</h3>
+    <h3>Select Document</h3>
 
-    <select id="chunkSource">
-        <option value="">No documents available</option>
+    <div class="description">
+        This dropdown is rebuilt every time a document is added or deleted.
+    </div>
+
+
+    <label>
+        Source document
+    </label>
+
+
+    <select
+        id="chunkSource"
+    >
+
+        <option value="">
+            No documents available
+        </option>
+
     </select>
 
-    <div class="grid" style="margin-top:15px;">
+
+    <div
+        id="selectedDocumentInfo"
+        class="document-meta"
+        style="margin-top:10px;"
+    >
+        No document selected.
+    </div>
+
+
+    <div
+        class="grid"
+        style="margin-top:16px;"
+    >
 
         <div>
-            <label>Chunk size</label>
+
+            <label>
+                Chunk Size
+            </label>
 
             <input
                 id="chunkSize"
                 type="number"
                 value="500"
-                min="100"
+                min="50"
             >
+
         </div>
 
+
         <div>
-            <label>Overlap</label>
+
+            <label>
+                Chunk Overlap
+            </label>
 
             <input
                 id="chunkOverlap"
@@ -516,15 +689,20 @@ button.small{
                 value="80"
                 min="0"
             >
+
         </div>
 
     </div>
 
+
     <div class="button-row">
 
-        <button onclick="runChunking()">
+        <button
+            onclick="chunkSelectedDocument()"
+        >
             Chunk Selected Document
         </button>
+
 
         <button
             class="secondary"
@@ -537,14 +715,21 @@ button.small{
 
 </div>
 
+
 <div class="card">
 
-    <h3>Generated Chunks</h3>
+    <h3>
+        Generated Chunks
+    </h3>
 
-    <div id="chunkOutput">
+    <div
+        id="chunkOutput"
+    >
+
         <div class="empty">
             No chunks generated yet.
         </div>
+
     </div>
 
 </div>
@@ -552,20 +737,32 @@ button.small{
 </section>
 
 
-<!-- ================================================= -->
-<!-- 03 EMBEDDINGS -->
-<!-- ================================================= -->
+<!-- =====================================================
+     03 EMBEDDINGS
+===================================================== -->
 
-<section id="stage-embedding" class="stage-panel">
+<section
+    id="stage-embedding"
+    class="stage-panel"
+>
 
 <div class="page-title">
+
     <h2>03 · Embeddings</h2>
-    <p>Convert chunks into numerical representations.</p>
+
+    <p>
+        Convert chunks into numerical vectors.
+    </p>
+
 </div>
+
 
 <div class="card">
 
-    <h3>Embedding configuration</h3>
+    <h3>
+        Embedding Model
+    </h3>
+
 
     <select id="embeddingModel">
 
@@ -583,9 +780,12 @@ button.small{
 
     </select>
 
+
     <div class="button-row">
 
-        <button onclick="createEmbeddings()">
+        <button
+            onclick="createEmbeddings()"
+        >
             Generate Embeddings
         </button>
 
@@ -593,14 +793,21 @@ button.small{
 
 </div>
 
+
 <div class="card">
 
-    <h3>Embedding Preview</h3>
+    <h3>
+        Embedding Preview
+    </h3>
 
-    <div id="embeddingOutput">
+    <div
+        id="embeddingOutput"
+    >
+
         <div class="empty">
             No embeddings generated yet.
         </div>
+
     </div>
 
 </div>
@@ -608,27 +815,45 @@ button.small{
 </section>
 
 
-<!-- ================================================= -->
-<!-- 04 VECTOR DB -->
-<!-- ================================================= -->
+<!-- =====================================================
+     04 VECTOR DB
+===================================================== -->
 
-<section id="stage-vector" class="stage-panel">
+<section
+    id="stage-vector"
+    class="stage-panel"
+>
 
 <div class="page-title">
+
     <h2>04 · Vector Database</h2>
-    <p>Store vectors together with metadata used for retrieval.</p>
+
+    <p>
+        Store embeddings with metadata for retrieval.
+    </p>
+
 </div>
 
+
 <div class="notice">
-    A vector database normally stores vectors plus metadata such as
-    document ID, collection, source, version and permissions.
+
+    A real vector database normally stores the vector plus metadata
+    such as document ID, chunk ID, collection, permissions and version.
+
 </div>
+
 
 <div class="card">
 
-    <h3>Collection filter</h3>
+    <label>
+        Collection
+    </label>
 
-    <select id="collectionFilter">
+
+    <select
+        id="collectionFilter"
+        onchange="renderVectorDB()"
+    >
 
         <option value="all">
             All Collections
@@ -648,24 +873,23 @@ button.small{
 
     </select>
 
-    <div class="button-row">
-
-        <button onclick="renderVectorDB()">
-            Apply Filter
-        </button>
-
-    </div>
-
 </div>
+
 
 <div class="card">
 
-    <h3>Vector Records</h3>
+    <h3>
+        Vector Records
+    </h3>
 
-    <div id="vectorOutput">
+    <div
+        id="vectorOutput"
+    >
+
         <div class="empty">
-            No vector records available.
+            No vector records.
         </div>
+
     </div>
 
 </div>
@@ -673,16 +897,25 @@ button.small{
 </section>
 
 
-<!-- ================================================= -->
-<!-- 05 QUERY -->
-<!-- ================================================= -->
+<!-- =====================================================
+     05 QUERY
+===================================================== -->
 
-<section id="stage-query" class="stage-panel">
+<section
+    id="stage-query"
+    class="stage-panel"
+>
 
 <div class="page-title">
+
     <h2>05 · User Query</h2>
-    <p>This is the question entering the retrieval pipeline.</p>
+
+    <p>
+        Enter the question that will be sent through retrieval.
+    </p>
+
 </div>
+
 
 <div class="card">
 
@@ -691,9 +924,12 @@ button.small{
         placeholder="Example: What is the employee notice period?"
     ></textarea>
 
+
     <div class="button-row">
 
-        <button onclick="runRetrieval()">
+        <button
+            onclick="runRetrieval()"
+        >
             Run Retrieval
         </button>
 
@@ -704,23 +940,35 @@ button.small{
 </section>
 
 
-<!-- ================================================= -->
-<!-- 06 RETRIEVAL -->
-<!-- ================================================= -->
+<!-- =====================================================
+     06 RETRIEVAL
+===================================================== -->
 
-<section id="stage-retrieval" class="stage-panel">
+<section
+    id="stage-retrieval"
+    class="stage-panel"
+>
 
 <div class="page-title">
+
     <h2>06 · Retrieval</h2>
-    <p>Find chunks relevant to the user query.</p>
+
+    <p>
+        Find the chunks most relevant to the query.
+    </p>
+
 </div>
+
 
 <div class="card">
 
     <div class="grid">
 
         <div>
-            <label>Top K</label>
+
+            <label>
+                Top K
+            </label>
 
             <input
                 id="topK"
@@ -729,26 +977,35 @@ button.small{
                 min="1"
                 max="20"
             >
+
         </div>
 
+
         <div>
-            <label>Similarity threshold</label>
+
+            <label>
+                Similarity Threshold
+            </label>
 
             <input
                 id="threshold"
                 type="number"
-                value="0.25"
+                value="0.20"
                 min="0"
                 max="1"
                 step="0.05"
             >
+
         </div>
 
     </div>
 
+
     <div class="button-row">
 
-        <button onclick="runRetrieval()">
+        <button
+            onclick="runRetrieval()"
+        >
             Retrieve
         </button>
 
@@ -756,14 +1013,21 @@ button.small{
 
 </div>
 
+
 <div class="card">
 
-    <h3>Retrieved Context</h3>
+    <h3>
+        Retrieved Chunks
+    </h3>
 
-    <div id="retrievalOutput">
+    <div
+        id="retrievalOutput"
+    >
+
         <div class="empty">
-            No retrieval results yet.
+            No retrieval results.
         </div>
+
     </div>
 
 </div>
@@ -771,16 +1035,25 @@ button.small{
 </section>
 
 
-<!-- ================================================= -->
-<!-- 07 RERANK -->
-<!-- ================================================= -->
+<!-- =====================================================
+     07 RERANK
+===================================================== -->
 
-<section id="stage-rerank" class="stage-panel">
+<section
+    id="stage-rerank"
+    class="stage-panel"
+>
 
 <div class="page-title">
+
     <h2>07 · Reranking</h2>
-    <p>Optionally reorder retrieved results using a second relevance model.</p>
+
+    <p>
+        Optionally reorder retrieved chunks using a reranker.
+    </p>
+
 </div>
+
 
 <div class="card">
 
@@ -790,7 +1063,7 @@ button.small{
             No Reranker
         </option>
 
-        <option value="cross-encoder">
+        <option value="cross">
             Cross Encoder
         </option>
 
@@ -800,24 +1073,30 @@ button.small{
 
     </select>
 
+
     <div class="button-row">
 
-        <button onclick="runReranking()">
-            Rerank Results
+        <button
+            onclick="runReranking()"
+        >
+            Rerank
         </button>
 
     </div>
 
 </div>
 
+
 <div class="card">
 
-    <h3>Reranked Results</h3>
+    <div
+        id="rerankOutput"
+    >
 
-    <div id="rerankOutput">
         <div class="empty">
-            No reranked results yet.
+            No reranking results.
         </div>
+
     </div>
 
 </div>
@@ -825,36 +1104,51 @@ button.small{
 </section>
 
 
-<!-- ================================================= -->
-<!-- 08 PROMPT -->
-<!-- ================================================= -->
+<!-- =====================================================
+     08 PROMPT
+===================================================== -->
 
-<section id="stage-prompt" class="stage-panel">
+<section
+    id="stage-prompt"
+    class="stage-panel"
+>
 
 <div class="page-title">
+
     <h2>08 · Prompt + Context</h2>
-    <p>Retrieved information is inserted into the LLM prompt.</p>
+
+    <p>
+        Retrieved context is assembled into the LLM prompt.
+    </p>
+
 </div>
+
 
 <div class="card">
 
-    <label>Context source</label>
+    <label>
+        Context Source
+    </label>
+
 
     <select id="contextSource">
 
-        <option value="retrieved">
+        <option value="retrieval">
             Retrieved Results
         </option>
 
-        <option value="reranked">
+        <option value="rerank">
             Reranked Results
         </option>
 
     </select>
 
+
     <div class="button-row">
 
-        <button onclick="buildPrompt()">
+        <button
+            onclick="buildPrompt()"
+        >
             Build Prompt
         </button>
 
@@ -862,15 +1156,19 @@ button.small{
 
 </div>
 
+
 <div class="card">
 
-    <h3>Generated Prompt</h3>
+    <h3>
+        Prompt
+    </h3>
+
 
     <div
         id="promptOutput"
-        class="prompt-box"
+        class="codebox"
     >
-        Prompt has not been generated yet.
+        Prompt not generated.
     </div>
 
 </div>
@@ -878,16 +1176,25 @@ button.small{
 </section>
 
 
-<!-- ================================================= -->
-<!-- 09 LLM -->
-<!-- ================================================= -->
+<!-- =====================================================
+     09 LLM
+===================================================== -->
 
-<section id="stage-llm" class="stage-panel">
+<section
+    id="stage-llm"
+    class="stage-panel"
+>
 
 <div class="page-title">
+
     <h2>09 · LLM Generation</h2>
-    <p>The LLM generates an answer using the supplied context.</p>
+
+    <p>
+        Simulated final answer generation.
+    </p>
+
 </div>
+
 
 <div class="card">
 
@@ -895,24 +1202,40 @@ button.small{
 
         <div>
 
-            <label>Model</label>
+            <label>
+                LLM
+            </label>
 
             <select id="llmModel">
 
-                <option>GPT Class Model</option>
-                <option>Claude Class Model</option>
-                <option>Gemini Class Model</option>
-                <option>Llama Class Model</option>
+                <option>
+                    GPT Class Model
+                </option>
+
+                <option>
+                    Claude Class Model
+                </option>
+
+                <option>
+                    Gemini Class Model
+                </option>
+
+                <option>
+                    Llama Class Model
+                </option>
 
             </select>
 
         </div>
 
+
         <div>
 
             <label>
                 Temperature:
-                <span id="temperatureValue">0.2</span>
+                <span id="temperatureValue">
+                    0.2
+                </span>
             </label>
 
             <input
@@ -928,9 +1251,12 @@ button.small{
 
     </div>
 
+
     <div class="button-row">
 
-        <button onclick="generateLLMAnswer()">
+        <button
+            onclick="generateAnswer()"
+        >
             Generate Answer
         </button>
 
@@ -938,15 +1264,19 @@ button.small{
 
 </div>
 
+
 <div class="card">
 
-    <h3>Answer</h3>
+    <h3>
+        Answer
+    </h3>
+
 
     <div
         id="answerOutput"
-        class="answer-box"
+        class="answer"
     >
-        No answer generated yet.
+        No answer generated.
     </div>
 
 </div>
@@ -954,49 +1284,56 @@ button.small{
 </section>
 
 
-<!-- ================================================= -->
-<!-- 10 EVALUATION -->
-<!-- ================================================= -->
+<!-- =====================================================
+     10 EVALUATION
+===================================================== -->
 
-<section id="stage-evaluation" class="stage-panel">
+<section
+    id="stage-evaluation"
+    class="stage-panel"
+>
 
 <div class="page-title">
+
     <h2>10 · Evaluation</h2>
-    <p>Test whether retrieval is actually useful.</p>
+
+    <p>
+        Test retrieval and answer quality.
+    </p>
+
 </div>
+
 
 <div class="card">
 
-    <h3>Evaluation Dataset</h3>
+    <button
+        onclick="loadDemoEvaluation()"
+    >
+        Load Demo Evaluation
+    </button>
 
-    <input
-        type="file"
-        id="evaluationFile"
-        accept=".json,.csv"
+
+    <button
+        onclick="runEvaluation()"
+        class="secondary"
+        style="margin-left:7px;"
+    >
+        Run Evaluation
+    </button>
+
+</div>
+
+
+<div class="card">
+
+    <div
+        id="evaluationOutput"
     >
 
-    <div class="button-row">
-
-        <button onclick="loadDemoEvaluation()">
-            Load Demo Evaluation
-        </button>
-
-        <button onclick="runEvaluation()">
-            Run Evaluation
-        </button>
-
-    </div>
-
-</div>
-
-<div class="card">
-
-    <h3>Evaluation Results</h3>
-
-    <div id="evaluationOutput">
         <div class="empty">
-            No evaluation dataset loaded.
+            No evaluation loaded.
         </div>
+
     </div>
 
 </div>
@@ -1004,60 +1341,101 @@ button.small{
 </section>
 
 
-<!-- ================================================= -->
-<!-- REFRESH -->
-<!-- ================================================= -->
+<!-- =====================================================
+     REFRESH
+===================================================== -->
 
-<section id="stage-refresh" class="stage-panel">
+<section
+    id="stage-refresh"
+    class="stage-panel"
+>
 
 <div class="page-title">
-    <h2>Data Refresh / Versioning</h2>
-    <p>Understand what happens when source data changes.</p>
+
+    <h2>
+        Data Refresh
+    </h2>
+
+    <p>
+        Understand stale vectors and source updates.
+    </p>
+
 </div>
+
 
 <div class="notice warning">
 
-    In production, adding, changing or deleting source documents
-    requires corresponding vector-store records to be updated.
-    Otherwise retrieval can return stale information.
+    If the source document changes but the vector database is not
+    updated, retrieval can return stale information.
 
 </div>
+
 
 <div class="grid grid-3">
 
     <div class="stat">
-        <div class="stat-label">Source Version</div>
-        <div class="stat-value" id="sourceVersion">v1</div>
+
+        <div class="stat-label">
+            Source Version
+        </div>
+
+        <div
+            id="sourceVersion"
+            class="stat-value"
+        >
+            v1
+        </div>
+
     </div>
 
-    <div class="stat">
-        <div class="stat-label">Vector Version</div>
-        <div class="stat-value" id="vectorVersion">v1</div>
-    </div>
 
     <div class="stat">
-        <div class="stat-label">Freshness</div>
-        <div class="stat-value" id="freshness">100%</div>
+
+        <div class="stat-label">
+            Vector Version
+        </div>
+
+        <div
+            id="vectorVersion"
+            class="stat-value"
+        >
+            v1
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-label">
+            Freshness
+        </div>
+
+        <div
+            id="freshness"
+            class="stat-value"
+        >
+            100%
+        </div>
+
     </div>
 
 </div>
 
+
 <div class="card">
 
-    <h3>Simulate Source Change</h3>
-
-    <p class="card-description">
-        Simulates a source document being modified outside the vector database.
-    </p>
-
-    <button onclick="simulateSourceChange()">
-        Simulate Source Update
+    <button
+        onclick="simulateSourceChange()"
+    >
+        Simulate Source Change
     </button>
+
 
     <button
         class="secondary"
         onclick="refreshVectorDB()"
-        style="margin-left:8px;"
+        style="margin-left:7px;"
     >
         Refresh Vector DB
     </button>
@@ -1066,6 +1444,7 @@ button.small{
 
 </section>
 
+
 </main>
 </div>
 
@@ -1073,8 +1452,32 @@ button.small{
 <script>
 
 /* =========================================================
-   STATE
+   CENTRAL STATE
 ========================================================= */
+
+/*
+    This is the important architectural change.
+
+    There is ONE source of truth:
+
+        state.documents
+
+    Everything else is derived from it.
+
+        documents
+             ↓
+        chunks
+             ↓
+        embeddings
+             ↓
+        vectorDB
+             ↓
+        retrieval
+             ↓
+        prompt
+             ↓
+        answer
+*/
 
 const state = {
 
@@ -1104,54 +1507,14 @@ const state = {
 
 
 /*
-    IMPORTANT:
+    NEVER derive document IDs from array length.
 
-    Never use state.documents.length + 1 for IDs.
+    Deleting an item changes array length.
 
-    If:
-
-        DOC-001
-        DOC-002
-        DOC-003
-
-    and DOC-002 is deleted,
-
-    documents.length becomes 2.
-
-    The next upload could accidentally become DOC-003.
-
-    We therefore maintain a separate ID counter.
+    This counter guarantees uniqueness.
 */
 
 let nextDocumentNumber = 1;
-
-
-/* =========================================================
-   UNIQUE DOCUMENT ID
-========================================================= */
-
-function generateDocumentId(){
-
-    let id;
-
-    do{
-
-        id =
-            "DOC-" +
-            String(nextDocumentNumber)
-                .padStart(3,"0");
-
-        nextDocumentNumber++;
-
-    }
-    while(
-        state.documents.some(
-            doc => doc.id === id
-        )
-    );
-
-    return id;
-}
 
 
 /* =========================================================
@@ -1160,135 +1523,87 @@ function generateDocumentId(){
 
 document
 .querySelectorAll(".stage")
-.forEach(item => {
+.forEach(stage => {
 
-    item.addEventListener("click",function(){
+    stage.addEventListener(
+        "click",
+        () => {
 
-        const stage =
-            this.dataset.stage;
+            const name =
+                stage.dataset.stage;
 
-        document
-        .querySelectorAll(".stage-panel")
-        .forEach(panel =>
-            panel.classList.remove("active")
-        );
 
-        document
-        .querySelectorAll(".stage")
-        .forEach(stageItem =>
-            stageItem.classList.remove("active")
-        );
+            document
+            .querySelectorAll(".stage")
+            .forEach(item =>
+                item.classList.remove("active")
+            );
 
-        document
-        .getElementById(
-            "stage-" + stage
-        )
-        .classList.add("active");
 
-        this.classList.add("active");
+            document
+            .querySelectorAll(".stage-panel")
+            .forEach(panel =>
+                panel.classList.remove("active")
+            );
 
-    });
+
+            stage.classList.add("active");
+
+
+            document
+            .getElementById(
+                "stage-" + name
+            )
+            .classList.add("active");
+
+        }
+    );
 
 });
 
 
 /* =========================================================
-   FILE UPLOAD
+   DOCUMENT ID
 ========================================================= */
 
-document
-.getElementById("sourceFiles")
-.addEventListener(
-    "change",
-    async function(event){
+function createDocumentId(){
 
-        const files =
-            Array.from(event.target.files);
+    let id;
 
-        if(files.length === 0){
-            return;
-        }
 
-        for(const file of files){
+    do{
 
-            await readFile(file);
+        id =
+            "DOC-" +
+            String(nextDocumentNumber)
+            .padStart(3,"0");
 
-        }
 
-        /*
-            Clear the input so the same file can
-            be uploaded again later if required.
-        */
-
-        event.target.value = "";
-
-        renderDocuments();
-
-        updateChunkSource();
+        nextDocumentNumber++;
 
     }
-);
-
-
-/* =========================================================
-   READ FILE
-========================================================= */
-
-async function readFile(file){
-
-    const text =
-        await file.text();
-
-    const documentId =
-        generateDocumentId();
-
-    const documentObject = {
-
-        id: documentId,
-
-        name: file.name,
-
-        type:
-            file.type ||
-            "text/plain",
-
-        version: 1,
-
-        content: text,
-
-        collection:
-            guessCollection(
-                file.name
-            )
-
-    };
-
-
-    state.documents.push(
-        documentObject
+    while(
+        state.documents.some(
+            doc =>
+                doc.id === id
+        )
     );
 
 
-    /*
-        IMPORTANT:
-
-        Refresh the chunk dropdown
-        immediately after adding the document.
-    */
-
-    updateChunkSource();
+    return id;
 
 }
 
 
 /* =========================================================
-   COLLECTION DETECTION
+   COLLECTION
 ========================================================= */
 
-function guessCollection(filename){
+function getCollection(filename){
 
     const name =
         filename.toLowerCase();
+
 
     if(
         name.includes("hr") ||
@@ -1302,8 +1617,7 @@ function guessCollection(filename){
 
 
     if(
-        name.includes("product") ||
-        name.includes("policy")
+        name.includes("product")
     ){
 
         return "product-knowledge";
@@ -1317,102 +1631,138 @@ function guessCollection(filename){
 
 
 /* =========================================================
-   DEMO DOCUMENTS
+   ADD DOCUMENT
 ========================================================= */
 
-function loadDemoDocuments(){
+function addDocument({
+    name,
+    content,
+    type="text/plain",
+    collection=null
+}){
 
-    state.documents = [
+    if(
+        !name ||
+        typeof content !== "string"
+    ){
 
-        {
-            id:"DOC-001",
-            name:"employee-handbook.md",
-            type:"text/markdown",
-            version:1,
-            collection:"hr-knowledge",
+        return null;
 
-            content:
-`# Employee Handbook
+    }
 
-Employees are entitled to 24 annual leave days.
 
-The standard notice period for employees is 60 days.
+    const document = {
 
-Employees can work remotely up to three days per week with manager approval.
+        id:
+            createDocumentId(),
 
-Performance reviews are conducted twice every year.`
-        },
+        name:
+            name,
 
-        {
-            id:"DOC-002",
-            name:"product-policy.md",
-            type:"text/markdown",
-            version:1,
-            collection:"product-knowledge",
+        content:
+            content,
 
-            content:
-`# Product Policy
+        type:
+            type,
 
-Product releases follow a two-week sprint cycle.
+        version:
+            1,
 
-Major releases require product, engineering and security approval.
+        collection:
+            collection ||
+            getCollection(name)
 
-Product owners are responsible for maintaining the product roadmap.
+    };
 
-Critical production issues require immediate escalation.`
-        },
 
-        {
-            id:"DOC-003",
-            name:"security-policy.txt",
-            type:"text/plain",
-            version:1,
-            collection:"company-knowledge",
-
-            content:
-`Security Policy
-
-All production access must use multi-factor authentication.
-
-Sensitive customer information must not be stored in local files.
-
-Security incidents must be reported immediately.
-
-Access permissions should be reviewed every quarter.`
-        }
-
-    ];
+    state.documents.push(document);
 
 
     /*
-        The demo documents occupy 001-003.
+        Every time a document is added:
 
-        Any uploaded document after this
-        will start from DOC-004.
+            1. Refresh document UI
+            2. Refresh chunk dropdown
+            3. Update counters
     */
 
-    nextDocumentNumber = 4;
+    refreshDocumentUI();
 
 
-    clearAllDerivedData();
-
-    renderDocuments();
-
-    updateChunkSource();
-
-    renderChunks();
-
-    renderEmbeddings();
-
-    renderVectorDB();
-
-    updateVersionDisplay();
+    return document;
 
 }
 
 
 /* =========================================================
-   DOCUMENT RENDER
+   FILE UPLOAD
+========================================================= */
+
+document
+.getElementById("sourceFiles")
+.addEventListener(
+    "change",
+    async event => {
+
+        const files =
+            Array.from(
+                event.target.files
+            );
+
+
+        for(
+            const file of files
+        ){
+
+            const content =
+                await file.text();
+
+
+            addDocument({
+
+                name:
+                    file.name,
+
+                content:
+                    content,
+
+                type:
+                    file.type ||
+                    "text/plain"
+
+            });
+
+        }
+
+
+        /*
+            Allows the same file to be
+            selected again later.
+        */
+
+        event.target.value = "";
+
+    }
+);
+
+
+/* =========================================================
+   DOCUMENT UI REFRESH
+========================================================= */
+
+function refreshDocumentUI(){
+
+    renderDocuments();
+
+    refreshChunkDropdown();
+
+    updateCounters();
+
+}
+
+
+/* =========================================================
+   RENDER DOCUMENTS
 ========================================================= */
 
 function renderDocuments(){
@@ -1423,12 +1773,6 @@ function renderDocuments(){
         );
 
 
-    document
-    .getElementById("documentCount")
-    .textContent =
-        state.documents.length;
-
-
     if(
         state.documents.length === 0
     ){
@@ -1436,13 +1780,11 @@ function renderDocuments(){
         container.innerHTML = `
             <div class="empty">
                 No documents loaded.
-                Upload a file or load the demo documents.
             </div>
         `;
 
-        updateChunkSource();
-
         return;
+
     }
 
 
@@ -1452,35 +1794,49 @@ function renderDocuments(){
 
             <div class="document-row">
 
-                <div class="document-main">
+                <div class="document-info">
 
                     <div class="document-name">
-                        ${escapeHTML(doc.name)}
+
+                        ${escapeHTML(
+                            doc.name
+                        )}
+
                     </div>
 
                     <div class="document-meta">
 
                         ID:
-                        ${escapeHTML(doc.id)}
+                        ${escapeHTML(
+                            doc.id
+                        )}
 
-                        · Version ${doc.version}
+                        · Version
+                        ${doc.version}
 
                         ·
                         ${doc.content.length.toLocaleString()}
                         characters
 
                         ·
-                        ${escapeHTML(doc.collection)}
+
+                        ${escapeHTML(
+                            doc.collection
+                        )}
 
                     </div>
 
                 </div>
 
+
                 <div class="document-actions">
 
-                    <span class="badge badge-green">
+                    <span
+                        class="badge green"
+                    >
                         Loaded
                     </span>
+
 
                     <button
                         class="danger small"
@@ -1503,7 +1859,7 @@ function renderDocuments(){
    CHUNK DROPDOWN
 ========================================================= */
 
-function updateChunkSource(){
+function refreshChunkDropdown(){
 
     const select =
         document.getElementById(
@@ -1511,24 +1867,12 @@ function updateChunkSource(){
         );
 
 
-    if(!select){
-        return;
-    }
-
-
-    /*
-        Remember what the user had selected.
-
-        If that document still exists after an upload/delete,
-        keep the selection.
-    */
-
-    const previousValue =
+    const previousId =
         select.value;
 
 
     /*
-        Completely rebuild the dropdown.
+        Clear everything.
     */
 
     select.innerHTML = "";
@@ -1538,88 +1882,186 @@ function updateChunkSource(){
         state.documents.length === 0
     ){
 
-        const option =
-            document.createElement(
-                "option"
-            );
+        select.innerHTML = `
+            <option value="">
+                No documents available
+            </option>
+        `;
 
-        option.value = "";
 
-        option.textContent =
-            "No documents available";
-
-        select.appendChild(option);
+        updateSelectedDocumentInfo();
 
         return;
+
     }
 
 
-    state.documents.forEach(doc => {
+    /*
+        Build directly from CURRENT state.documents.
+    */
 
-        const option =
-            document.createElement(
-                "option"
+    state.documents.forEach(
+        doc => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                doc.id;
+
+
+            option.textContent =
+                `${doc.name} (${doc.id})`;
+
+
+            select.appendChild(
+                option
             );
 
-        option.value =
-            doc.id;
-
-        option.textContent =
-            `${doc.name} (${doc.id})`;
-
-        select.appendChild(option);
-
-    });
+        }
+    );
 
 
     /*
-        Preserve previous selection if possible.
+        If previous selection still exists,
+        preserve it.
+
+        Otherwise choose the first document.
     */
 
-    const stillExists =
+    const exists =
         state.documents.some(
             doc =>
-                doc.id === previousValue
+                doc.id === previousId
         );
 
 
-    if(stillExists){
+    if(exists){
 
         select.value =
-            previousValue;
+            previousId;
 
     }
     else{
 
-        select.value =
-            state.documents[0].id;
+        select.selectedIndex =
+            0;
 
     }
+
+
+    updateSelectedDocumentInfo();
 
 }
 
 
 /* =========================================================
-   DELETE SINGLE DOCUMENT
+   SELECTED DOCUMENT INFO
+========================================================= */
+
+document
+.getElementById("chunkSource")
+.addEventListener(
+    "change",
+    updateSelectedDocumentInfo
+);
+
+
+function getSelectedDocument(){
+
+    const id =
+        document.getElementById(
+            "chunkSource"
+        ).value;
+
+
+    if(!id){
+        return null;
+    }
+
+
+    return state.documents.find(
+        doc =>
+            doc.id === id
+    ) || null;
+
+}
+
+
+function updateSelectedDocumentInfo(){
+
+    const info =
+        document.getElementById(
+            "selectedDocumentInfo"
+        );
+
+
+    const doc =
+        getSelectedDocument();
+
+
+    if(!doc){
+
+        info.textContent =
+            "No document selected.";
+
+        return;
+
+    }
+
+
+    info.innerHTML =
+        `
+        Selected:
+        <strong>
+            ${escapeHTML(doc.name)}
+        </strong>
+
+        · ID:
+        ${escapeHTML(doc.id)}
+
+        ·
+        ${doc.content.length.toLocaleString()}
+        characters
+
+        ·
+        ${escapeHTML(doc.collection)}
+        `;
+
+}
+
+
+/* =========================================================
+   DELETE DOCUMENT
 ========================================================= */
 
 function deleteDocument(documentId){
 
-    const doc =
+    const document =
         state.documents.find(
-            d => d.id === documentId
+            doc =>
+                doc.id === documentId
         );
 
 
-    if(!doc){
+    if(!document){
+
+        alert(
+            "Document not found."
+        );
+
         return;
+
     }
 
 
     const confirmed =
         confirm(
-            `Delete "${doc.name}"?\n\n` +
-            `This will also remove its chunks, embeddings and vector records.`
+            `Delete "${document.name}"?\n\n` +
+            "Its chunks, embeddings and vector records will also be removed."
         );
 
 
@@ -1629,24 +2071,19 @@ function deleteDocument(documentId){
 
 
     /*
-        DOCUMENT
-        ↓
-        CHUNKS
-        ↓
-        EMBEDDINGS
-        ↓
-        VECTOR DB
-
-        Remove every derived artifact belonging
-        to this document.
+        SOURCE DOCUMENT
     */
 
     state.documents =
         state.documents.filter(
-            d =>
-                d.id !== documentId
+            doc =>
+                doc.id !== documentId
         );
 
+
+    /*
+        CHUNKS
+    */
 
     state.chunks =
         state.chunks.filter(
@@ -1655,12 +2092,20 @@ function deleteDocument(documentId){
         );
 
 
+    /*
+        EMBEDDINGS
+    */
+
     state.embeddings =
         state.embeddings.filter(
             embedding =>
                 embedding.documentId !== documentId
         );
 
+
+    /*
+        VECTOR DATABASE
+    */
 
     state.vectorDB =
         state.vectorDB.filter(
@@ -1670,21 +2115,11 @@ function deleteDocument(documentId){
 
 
     /*
-        Retrieval context may have contained
-        chunks from the deleted document.
-
-        Clear downstream state so the LLM
-        cannot use stale context.
+        Retrieval context is no longer trustworthy.
     */
 
-    clearRetrievalState();
+    clearDownstreamState();
 
-
-    /*
-        The simulator deletes the corresponding
-        vector records immediately, so the source
-        and vector store remain synchronized.
-    */
 
     state.sourceVersion++;
 
@@ -1692,9 +2127,7 @@ function deleteDocument(documentId){
         state.sourceVersion;
 
 
-    renderDocuments();
-
-    updateChunkSource();
+    refreshDocumentUI();
 
     renderChunks();
 
@@ -1702,13 +2135,13 @@ function deleteDocument(documentId){
 
     renderVectorDB();
 
-    updateVersionDisplay();
+    updateVersionUI();
 
 }
 
 
 /* =========================================================
-   DELETE ALL DOCUMENTS
+   DELETE ALL
 ========================================================= */
 
 function deleteAllDocuments(){
@@ -1722,13 +2155,13 @@ function deleteAllDocuments(){
         );
 
         return;
+
     }
 
 
     const confirmed =
         confirm(
-            "Delete ALL documents?\n\n" +
-            "This will also delete all chunks, embeddings and vector records."
+            "Delete ALL documents and their RAG data?"
         );
 
 
@@ -1746,15 +2179,8 @@ function deleteAllDocuments(){
     state.vectorDB = [];
 
 
-    clearRetrievalState();
+    clearDownstreamState();
 
-
-    /*
-        Start ID sequence again.
-
-        This is safe because all existing documents
-        have been deleted.
-    */
 
     nextDocumentNumber = 1;
 
@@ -1764,9 +2190,7 @@ function deleteAllDocuments(){
     state.vectorVersion = 1;
 
 
-    renderDocuments();
-
-    updateChunkSource();
+    refreshDocumentUI();
 
     renderChunks();
 
@@ -1774,66 +2198,53 @@ function deleteAllDocuments(){
 
     renderVectorDB();
 
-    updateVersionDisplay();
+    updateVersionUI();
 
 }
 
 
 /* =========================================================
-   CHUNKING
+   CHUNK SELECTED DOCUMENT
 ========================================================= */
 
-function runChunking(){
-
-    const select =
-        document.getElementById(
-            "chunkSource"
-        );
-
-
-    const documentId =
-        select.value;
-
-
-    if(!documentId){
-
-        alert(
-            "No document is available for chunking."
-        );
-
-        return;
-    }
-
-
-    const doc =
-        state.documents.find(
-            d =>
-                d.id === documentId
-        );
-
+function chunkSelectedDocument(){
 
     /*
-        This protects against a stale dropdown
-        after deletion.
+        ALWAYS retrieve the document from the
+        CURRENT state.
+
+        This avoids stale document references.
     */
 
-    if(!doc){
+    const document =
+        getSelectedDocument();
+
+
+    if(!document){
 
         alert(
-            "The selected document no longer exists. Please select another document."
+            "Please select a document first."
         );
 
-        updateChunkSource();
+        refreshChunkDropdown();
 
         return;
+
     }
 
 
     const chunkSize =
+        Number(
+            document.getElementById
+        );
+
+
+    const size =
         parseInt(
             document.getElementById(
                 "chunkSize"
-            ).value
+            ).value,
+            10
         );
 
 
@@ -1841,109 +2252,166 @@ function runChunking(){
         parseInt(
             document.getElementById(
                 "chunkOverlap"
-            ).value
+            ).value,
+            10
         );
 
 
     if(
-        !chunkSize ||
-        chunkSize <= 0
+        !Number.isFinite(size) ||
+        size <= 0
     ){
 
         alert(
-            "Chunk size must be greater than 0."
+            "Chunk size must be greater than zero."
         );
 
         return;
+
     }
 
 
     if(
+        !Number.isFinite(overlap) ||
         overlap < 0 ||
-        overlap >= chunkSize
+        overlap >= size
     ){
 
         alert(
-            "Overlap must be smaller than chunk size."
+            "Overlap must be between 0 and less than chunk size."
         );
 
         return;
+
     }
 
 
     /*
-        Remove old chunks for this document.
+        Remove ONLY existing chunks belonging
+        to this document.
     */
 
     state.chunks =
         state.chunks.filter(
             chunk =>
-                chunk.documentId !== documentId
+                chunk.documentId !== document.id
         );
 
 
     /*
-        Old embeddings are now invalid
-        because the chunk boundaries changed.
+        Existing embeddings/vectors for those
+        old chunks are now invalid.
     */
 
     state.embeddings =
         state.embeddings.filter(
             embedding =>
-                embedding.documentId !== documentId
+                embedding.documentId !== document.id
         );
 
-
-    /*
-        Old vector records are also invalid.
-    */
 
     state.vectorDB =
         state.vectorDB.filter(
             record =>
-                record.documentId !== documentId
+                record.documentId !== document.id
         );
 
 
+    /*
+        Create new chunks.
+    */
+
+    const newChunks =
+        createChunks(
+            document,
+            size,
+            overlap
+        );
+
+
+    state.chunks.push(
+        ...newChunks
+    );
+
+
+    /*
+        Any previous retrieval results are stale.
+    */
+
+    clearDownstreamState();
+
+
+    renderChunks();
+
+    renderEmbeddings();
+
+    renderVectorDB();
+
+    updateCounters();
+
+
+    /*
+        Automatically show a useful confirmation.
+    */
+
+    alert(
+        `${newChunks.length} chunk(s) created for "${document.name}".`
+    );
+
+}
+
+
+/* =========================================================
+   CREATE CHUNKS
+========================================================= */
+
+function createChunks(
+    document,
+    chunkSize,
+    overlap
+){
+
+    const chunks = [];
+
     let start = 0;
 
-    let index = 0;
+    let index = 1;
 
 
     while(
-        start < doc.content.length
+        start < document.content.length
     ){
 
         const end =
             Math.min(
                 start + chunkSize,
-                doc.content.length
+                document.content.length
             );
 
 
-        const chunkText =
-            doc.content.substring(
+        const text =
+            document.content.substring(
                 start,
                 end
             );
 
 
-        state.chunks.push({
+        chunks.push({
 
             id:
-                `${doc.id}-CHUNK-${String(index + 1).padStart(3,"0")}`,
+                `${document.id}-CHUNK-${String(index).padStart(3,"0")}`,
 
             documentId:
-                doc.id,
+                document.id,
 
             documentName:
-                doc.name,
+                document.name,
 
             collection:
-                doc.collection,
+                document.collection,
 
             text:
-                chunkText,
+                text,
 
             start:
                 start,
@@ -1958,7 +2426,7 @@ function runChunking(){
 
 
         if(
-            end >= doc.content.length
+            end >= document.content.length
         ){
             break;
         }
@@ -1970,19 +2438,13 @@ function runChunking(){
     }
 
 
-    clearRetrievalState();
-
-    renderChunks();
-
-    renderEmbeddings();
-
-    renderVectorDB();
+    return chunks;
 
 }
 
 
 /* =========================================================
-   CHUNK ALL
+   CHUNK ALL DOCUMENTS
 ========================================================= */
 
 function chunkAllDocuments(){
@@ -1992,18 +2454,20 @@ function chunkAllDocuments(){
     ){
 
         alert(
-            "No documents available."
+            "There are no documents to chunk."
         );
 
         return;
+
     }
 
 
-    const chunkSize =
+    const size =
         parseInt(
             document.getElementById(
                 "chunkSize"
-            ).value
+            ).value,
+            10
         );
 
 
@@ -2011,35 +2475,45 @@ function chunkAllDocuments(){
         parseInt(
             document.getElementById(
                 "chunkOverlap"
-            ).value
+            ).value,
+            10
         );
 
 
     if(
-        !chunkSize ||
-        chunkSize <= 0
+        !Number.isFinite(size) ||
+        size <= 0
     ){
 
         alert(
-            "Chunk size must be greater than 0."
+            "Chunk size must be greater than zero."
         );
 
         return;
+
     }
 
 
     if(
+        !Number.isFinite(overlap) ||
         overlap < 0 ||
-        overlap >= chunkSize
+        overlap >= size
     ){
 
         alert(
-            "Overlap must be smaller than chunk size."
+            "Overlap must be between 0 and less than chunk size."
         );
 
         return;
+
     }
 
+
+    /*
+        Rebuild ALL chunks.
+
+        This guarantees no deleted/stale chunks survive.
+    */
 
     state.chunks = [];
 
@@ -2048,78 +2522,40 @@ function chunkAllDocuments(){
     state.vectorDB = [];
 
 
-    state.documents.forEach(doc => {
+    state.documents.forEach(
+        document => {
 
-        let start = 0;
-
-        let index = 0;
-
-
-        while(
-            start < doc.content.length
-        ){
-
-            const end =
-                Math.min(
-                    start + chunkSize,
-                    doc.content.length
+            const chunks =
+                createChunks(
+                    document,
+                    size,
+                    overlap
                 );
 
 
-            state.chunks.push({
-
-                id:
-                    `${doc.id}-CHUNK-${String(index + 1).padStart(3,"0")}`,
-
-                documentId:
-                    doc.id,
-
-                documentName:
-                    doc.name,
-
-                collection:
-                    doc.collection,
-
-                text:
-                    doc.content.substring(
-                        start,
-                        end
-                    ),
-
-                start:
-                    start,
-
-                end:
-                    end
-
-            });
-
-
-            index++;
-
-
-            if(
-                end >= doc.content.length
-            ){
-                break;
-            }
-
-
-            start =
-                end - overlap;
+            state.chunks.push(
+                ...chunks
+            );
 
         }
+    );
 
-    });
 
+    clearDownstreamState();
 
-    clearRetrievalState();
 
     renderChunks();
 
     renderEmbeddings();
 
     renderVectorDB();
+
+    updateCounters();
+
+
+    alert(
+        `${state.chunks.length} chunk(s) created from ${state.documents.length} document(s).`
+    );
 
 }
 
@@ -2136,12 +2572,6 @@ function renderChunks(){
         );
 
 
-    document
-    .getElementById("chunkCount")
-    .textContent =
-        state.chunks.length;
-
-
     if(
         state.chunks.length === 0
     ){
@@ -2152,45 +2582,70 @@ function renderChunks(){
             </div>
         `;
 
+        updateCounters();
+
         return;
+
     }
 
 
     container.innerHTML =
         state.chunks
-        .map(chunk => `
+        .map(
+            (chunk,index) => `
 
-            <div class="chunk">
+                <div class="chunk">
 
-                <div class="chunk-header">
+                    <div class="chunk-header">
 
-                    <span>
-                        ${escapeHTML(chunk.id)}
-                    </span>
+                        <span>
+                            ${escapeHTML(
+                                chunk.id
+                            )}
+                        </span>
 
-                    <span>
-                        ${escapeHTML(chunk.documentName)}
-                    </span>
+                        <span>
+
+                            ${escapeHTML(
+                                chunk.documentName
+                            )}
+
+                            ·
+                            ${index + 1}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="chunk-text">
+
+                        ${escapeHTML(
+                            chunk.text
+                        )}
+
+                    </div>
 
                 </div>
 
-                <div class="chunk-text">
-                    ${escapeHTML(chunk.text)}
-                </div>
-
-            </div>
-
-        `)
+            `
+        )
         .join("");
+
+
+    updateCounters();
 
 }
 
 
 /* =========================================================
-   EMBEDDINGS
+   EMBEDDING
 ========================================================= */
 
-function fakeEmbedding(text,model){
+function fakeEmbedding(
+    text,
+    model
+){
 
     const dimensions =
         model === "mini"
@@ -2200,42 +2655,43 @@ function fakeEmbedding(text,model){
                 : 16;
 
 
-    const vector = [];
-
     let hash = 0;
 
 
     for(
-        let i = 0;
-        i < text.length;
+        let i=0;
+        i<text.length;
         i++
     ){
 
         hash =
             ((hash << 5) - hash)
-            + text.charCodeAt(i);
+            +
+            text.charCodeAt(i);
 
         hash |= 0;
 
     }
 
 
+    const vector = [];
+
+
     for(
-        let i = 0;
-        i < dimensions;
+        let i=0;
+        i<dimensions;
         i++
     ){
 
-        const value =
-            Math.sin(
-                hash * (i + 1)
-            );
-
-
         vector.push(
             Number(
-                ((value + 1) / 2)
-                .toFixed(4)
+                (
+                    (
+                        Math.sin(
+                            hash * (i+1)
+                        ) + 1
+                    ) / 2
+                ).toFixed(4)
             )
         );
 
@@ -2258,6 +2714,7 @@ function createEmbeddings(){
         );
 
         return;
+
     }
 
 
@@ -2270,45 +2727,10 @@ function createEmbeddings(){
     state.embeddings = [];
 
 
-    state.chunks.forEach(chunk => {
+    state.chunks.forEach(
+        chunk => {
 
-        state.embeddings.push({
-
-            chunkId:
-                chunk.id,
-
-            documentId:
-                chunk.documentId,
-
-            vector:
-                fakeEmbedding(
-                    chunk.text,
-                    model
-                ),
-
-            model:
-                model
-
-        });
-
-    });
-
-
-    /*
-        Build vector database records.
-    */
-
-    state.vectorDB =
-        state.chunks.map(chunk => {
-
-            const embedding =
-                state.embeddings.find(
-                    e =>
-                        e.chunkId === chunk.id
-                );
-
-
-            return {
+            state.embeddings.push({
 
                 chunkId:
                     chunk.id,
@@ -2316,34 +2738,75 @@ function createEmbeddings(){
                 documentId:
                     chunk.documentId,
 
-                documentName:
-                    chunk.documentName,
-
-                collection:
-                    chunk.collection,
-
                 vector:
-                    embedding.vector,
+                    fakeEmbedding(
+                        chunk.text,
+                        model
+                    ),
 
-                text:
-                    chunk.text
+                model:
+                    model
 
-            };
+            });
 
-        });
+        }
+    );
+
+
+    /*
+        Simulated vector database.
+    */
+
+    state.vectorDB =
+        state.chunks.map(
+            chunk => {
+
+                const embedding =
+                    state.embeddings.find(
+                        item =>
+                            item.chunkId ===
+                            chunk.id
+                    );
+
+
+                return {
+
+                    chunkId:
+                        chunk.id,
+
+                    documentId:
+                        chunk.documentId,
+
+                    documentName:
+                        chunk.documentName,
+
+                    collection:
+                        chunk.collection,
+
+                    text:
+                        chunk.text,
+
+                    vector:
+                        embedding.vector
+
+                };
+
+            }
+        );
 
 
     state.vectorVersion =
         state.sourceVersion;
 
 
-    clearRetrievalState();
+    clearDownstreamState();
+
 
     renderEmbeddings();
 
     renderVectorDB();
 
-    updateVersionDisplay();
+    updateVersionUI();
 
 }
 
@@ -2371,36 +2834,36 @@ function renderEmbeddings(){
         `;
 
         return;
+
     }
 
 
     container.innerHTML =
         state.embeddings
-        .map(item => `
+        .map(
+            item => `
 
-            <div class="card"
-                 style="margin-bottom:10px;">
+                <div class="card">
 
-                <div style="
-                    font-size:12px;
-                    font-weight:700;
-                    margin-bottom:8px;
-                ">
-                    ${escapeHTML(item.chunkId)}
+                    <strong>
+                        ${escapeHTML(
+                            item.chunkId
+                        )}
+                    </strong>
+
+                    <div
+                        class="codebox"
+                        style="margin-top:8px;"
+                    >
+                        [
+                        ${item.vector.join(", ")}
+                        ]
+                    </div>
+
                 </div>
 
-                <div class="embedding">
-                    [${item.vector.join(", ")}]
-                </div>
-
-                <div class="document-meta">
-                    Model:
-                    ${escapeHTML(item.model)}
-                </div>
-
-            </div>
-
-        `)
+            `
+        )
         .join("");
 
 }
@@ -2418,12 +2881,6 @@ function renderVectorDB(){
         );
 
 
-    document
-    .getElementById("vectorCount")
-    .textContent =
-        state.vectorDB.length;
-
-
     const filter =
         document.getElementById(
             "collectionFilter"
@@ -2434,72 +2891,99 @@ function renderVectorDB(){
         state.vectorDB;
 
 
-    if(filter !== "all"){
+    if(
+        filter !== "all"
+    ){
 
         records =
             records.filter(
                 record =>
-                    record.collection === filter
+                    record.collection ===
+                    filter
             );
 
     }
 
 
-    if(records.length === 0){
+    if(
+        records.length === 0
+    ){
 
         container.innerHTML = `
             <div class="empty">
-                No vector records available for this filter.
+                No vector records available.
             </div>
         `;
 
+        updateCounters();
+
         return;
+
     }
 
 
     container.innerHTML =
         records
-        .map(record => `
+        .map(
+            record => `
 
-            <div class="result">
+                <div class="result">
 
-                <div class="result-top">
+                    <div class="result-top">
 
-                    <strong>
-                        ${escapeHTML(record.chunkId)}
-                    </strong>
+                        <strong>
+                            ${escapeHTML(
+                                record.chunkId
+                            )}
+                        </strong>
 
-                    <span class="badge badge-blue">
-                        ${escapeHTML(record.collection)}
-                    </span>
+                        <span
+                            class="badge blue"
+                        >
+                            ${escapeHTML(
+                                record.collection
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="document-meta">
+
+                        Document:
+                        ${escapeHTML(
+                            record.documentName
+                        )}
+
+                        ·
+
+                        ID:
+                        ${escapeHTML(
+                            record.documentId
+                        )}
+
+                    </div>
 
                 </div>
 
-                <div class="document-meta">
-
-                    Document:
-                    ${escapeHTML(record.documentName)}
-
-                    ·
-
-                    Document ID:
-                    ${escapeHTML(record.documentId)}
-
-                </div>
-
-            </div>
-
-        `)
+            `
+        )
         .join("");
+
+
+    updateCounters();
 
 }
 
 
 /* =========================================================
-   RETRIEVAL
+   QUERY / RETRIEVAL
 ========================================================= */
 
-function queryScore(query,text){
+function queryScore(
+    query,
+    text
+){
 
     const queryWords =
         query
@@ -2525,66 +3009,32 @@ function queryScore(query,text){
     let matches = 0;
 
 
-    queryWords.forEach(word => {
+    queryWords.forEach(
+        word => {
 
-        if(
-            textWords.includes(word)
-        ){
-            matches++;
+            if(
+                textWords.includes(word)
+            ){
+
+                matches++;
+
+            }
+
         }
+    );
 
-    });
 
-
-    let score =
+    const lexical =
         matches /
         queryWords.length;
 
 
-    /*
-        Small deterministic pseudo-semantic
-        component for the simulator.
-    */
-
-    const combined =
-        query.toLowerCase() +
-        text.toLowerCase();
-
-
-    let hash = 0;
-
-
-    for(
-        let i = 0;
-        i < combined.length;
-        i++
-    ){
-
-        hash =
-            ((hash << 5) - hash)
-            + combined.charCodeAt(i);
-
-        hash |= 0;
-
-    }
-
-
-    const pseudoSemantic =
-        Math.abs(
-            Math.sin(hash)
-        ) * 0.25;
-
-
-    score =
+    return Number(
         Math.min(
             1,
-            score * 0.75 +
-            pseudoSemantic
-        );
-
-
-    return Number(
-        score.toFixed(4)
+            lexical * .85 +
+            .05
+        ).toFixed(4)
     );
 
 }
@@ -2605,6 +3055,7 @@ function runRetrieval(){
         );
 
         return;
+
     }
 
 
@@ -2613,10 +3064,11 @@ function runRetrieval(){
     ){
 
         alert(
-            "Create embeddings and populate the vector DB first."
+            "Create embeddings first."
         );
 
         return;
+
     }
 
 
@@ -2624,7 +3076,8 @@ function runRetrieval(){
         parseInt(
             document.getElementById(
                 "topK"
-            ).value
+            ).value,
+            10
         );
 
 
@@ -2636,59 +3089,39 @@ function runRetrieval(){
         );
 
 
-    const collection =
-        document.getElementById(
-            "collectionFilter"
-        ).value;
-
-
-    let candidates =
-        state.vectorDB;
-
-
-    if(collection !== "all"){
-
-        candidates =
-            candidates.filter(
-                record =>
-                    record.collection === collection
-            );
-
-    }
-
-
     state.retrievalResults =
-        candidates
+        state.vectorDB
 
-        .map(record => ({
+        .map(
+            record => ({
 
-            ...record,
+                ...record,
 
-            score:
-                queryScore(
-                    query,
-                    record.text
-                )
+                score:
+                    queryScore(
+                        query,
+                        record.text
+                    )
 
-        }))
+            })
+        )
 
         .filter(
-            result =>
-                result.score >= threshold
+            item =>
+                item.score >=
+                threshold
         )
 
         .sort(
             (a,b) =>
-                b.score - a.score
+                b.score -
+                a.score
         )
 
         .slice(
             0,
             topK
         );
-
-
-    state.rerankedResults = [];
 
 
     renderRetrieval();
@@ -2714,11 +3147,12 @@ function renderRetrieval(){
 
         container.innerHTML = `
             <div class="empty">
-                No chunks passed the retrieval threshold.
+                No chunks matched the query.
             </div>
         `;
 
         return;
+
     }
 
 
@@ -2732,31 +3166,38 @@ function renderRetrieval(){
                     <div class="result-top">
 
                         <strong>
-                            #${index + 1}
+                            #${index+1}
                             ·
-                            ${escapeHTML(result.chunkId)}
+                            ${escapeHTML(
+                                result.chunkId
+                            )}
                         </strong>
 
                         <span class="score">
-                            Score:
                             ${result.score}
                         </span>
 
                     </div>
 
+
                     <div class="document-meta">
 
-                        ${escapeHTML(result.documentName)}
-                        ·
-                        ${escapeHTML(result.collection)}
+                        ${escapeHTML(
+                            result.documentName
+                        )}
 
                     </div>
+
 
                     <div
                         class="chunk-text"
                         style="margin-top:8px;"
                     >
-                        ${escapeHTML(result.text)}
+
+                        ${escapeHTML(
+                            result.text
+                        )}
+
                     </div>
 
                 </div>
@@ -2783,6 +3224,7 @@ function runReranking(){
         );
 
         return;
+
     }
 
 
@@ -2804,23 +3246,23 @@ function runReranking(){
 
         state.rerankedResults =
             state.retrievalResults
+            .map(
+                result => ({
 
-            .map(result => ({
+                    ...result,
 
-                ...result,
+                    rerankScore:
+                        Number(
+                            Math.min(
+                                1,
+                                result.score +
+                                .05 +
+                                Math.random()*.1
+                            ).toFixed(4)
+                        )
 
-                rerankScore:
-                    Number(
-                        Math.min(
-                            1,
-                            result.score +
-                            0.05 +
-                            Math.random() * 0.1
-                        ).toFixed(4)
-                    )
-
-            }))
-
+                })
+            )
             .sort(
                 (a,b) =>
                     b.rerankScore -
@@ -2853,11 +3295,12 @@ function renderReranking(){
 
         container.innerHTML = `
             <div class="empty">
-                No reranked results yet.
+                No reranked results.
             </div>
         `;
 
         return;
+
     }
 
 
@@ -2871,9 +3314,11 @@ function renderReranking(){
                     <div class="result-top">
 
                         <strong>
-                            #${index + 1}
+                            #${index+1}
                             ·
-                            ${escapeHTML(result.chunkId)}
+                            ${escapeHTML(
+                                result.chunkId
+                            )}
                         </strong>
 
                         <span class="score">
@@ -2887,8 +3332,14 @@ function renderReranking(){
 
                     </div>
 
-                    <div class="chunk-text">
-                        ${escapeHTML(result.text)}
+
+                    <div class="chunk-text"
+                         style="margin-top:8px;">
+
+                        ${escapeHTML(
+                            result.text
+                        )}
+
                     </div>
 
                 </div>
@@ -2906,17 +3357,15 @@ function renderReranking(){
 
 function buildPrompt(){
 
-    const contextSource =
+    const source =
         document.getElementById(
             "contextSource"
         ).value;
 
 
     const results =
-        contextSource === "reranked"
-
+        source === "rerank"
             ? state.rerankedResults
-
             : state.retrievalResults;
 
 
@@ -2925,10 +3374,11 @@ function buildPrompt(){
     ){
 
         alert(
-            "No retrieval context available."
+            "There is no context available."
         );
 
         return;
+
     }
 
 
@@ -2943,7 +3393,7 @@ function buildPrompt(){
         .map(
             (item,index) =>
 
-`[Context ${index + 1}]
+`[Context ${index+1}]
 Source: ${item.documentName}
 Chunk: ${item.chunkId}
 
@@ -2955,21 +3405,24 @@ ${item.text}`
     state.prompt =
 `You are a helpful assistant.
 
-Answer the user's question using ONLY the supplied context.
+Use only the supplied context.
 
-If the answer cannot be found in the context, say that there is insufficient information.
+If the context does not contain the answer,
+say that there is insufficient information.
 
-User Question:
+Question:
 ${query}
 
-Retrieved Context:
+Context:
 ${context}
 
 Answer:`;
 
 
     document
-    .getElementById("promptOutput")
+    .getElementById(
+        "promptOutput"
+    )
     .textContent =
         state.prompt;
 
@@ -2977,34 +3430,36 @@ Answer:`;
 
 
 /* =========================================================
-   LLM SIMULATION
+   LLM
 ========================================================= */
 
-function generateLLMAnswer(){
+function generateAnswer(){
 
-    if(!state.prompt){
+    if(
+        !state.prompt
+    ){
 
         buildPrompt();
 
     }
 
 
-    if(!state.prompt){
+    if(
+        !state.prompt
+    ){
         return;
     }
 
 
-    const contextSource =
+    const source =
         document.getElementById(
             "contextSource"
         ).value;
 
 
     const results =
-        contextSource === "reranked"
-
+        source === "rerank"
             ? state.rerankedResults
-
             : state.retrievalResults;
 
 
@@ -3013,59 +3468,32 @@ function generateLLMAnswer(){
     ){
 
         state.answer =
-            "I don't have sufficient information in the retrieved context.";
+            "Insufficient information.";
 
     }
     else{
 
-        /*
-            This is intentionally NOT a real LLM call.
-
-            It simulates the final generation stage
-            so you can understand the RAG architecture
-            without an API key.
-        */
-
-        let answer =
-            "Based on the retrieved documents:\n\n";
-
-
-        results
-        .slice(0,2)
-        .forEach(result => {
-
-            answer +=
-                "• " +
-                result.text
-                .replace(/\s+/g," ")
-                .trim() +
-                "\n";
-
-        });
-
-
-        answer +=
-            "\nSources: " +
-
-            [
-                ...new Set(
-                    results.map(
-                        r =>
-                            r.documentName
-                    )
-                )
-            ].join(", ");
-
-
         state.answer =
-            answer;
+            "Simulated LLM answer based on retrieved context:\n\n" +
+
+            results
+            .slice(0,2)
+            .map(
+                result =>
+                    "• " +
+                    result.text
+                    .replace(/\s+/g," ")
+                    .trim()
+            )
+            .join("\n");
 
     }
 
 
     document
-    .getElementById("answerOutput")
-    .textContent =
+    .getElementById(
+        "answerOutput"
+    ).textContent =
         state.answer;
 
 }
@@ -3085,6 +3513,7 @@ function loadDemoEvaluation(){
 
             expected:
                 "60 days"
+
         },
 
         {
@@ -3093,6 +3522,7 @@ function loadDemoEvaluation(){
 
             expected:
                 "24 days"
+
         },
 
         {
@@ -3101,64 +3531,55 @@ function loadDemoEvaluation(){
 
             expected:
                 "twice every year"
+
         }
 
     ];
 
 
-    renderEvaluation();
+    document
+    .getElementById(
+        "evaluationOutput"
+    )
+    .innerHTML = `
 
-}
+        <div class="notice">
 
+            ${state.evaluation.length}
+            evaluation questions loaded.
 
-function renderEvaluation(){
+        </div>
 
-    const container =
-        document.getElementById(
-            "evaluationOutput"
-        );
+        ${
+            state.evaluation
+            .map(
+                item => `
 
+                    <div class="result">
 
-    if(
-        state.evaluation.length === 0
-    ){
+                        <strong>
+                            ${escapeHTML(
+                                item.question
+                            )}
+                        </strong>
 
-        container.innerHTML = `
-            <div class="empty">
-                No evaluation dataset loaded.
-            </div>
-        `;
+                        <div class="document-meta">
 
-        return;
-    }
+                            Expected:
+                            ${escapeHTML(
+                                item.expected
+                            )}
 
+                        </div>
 
-    container.innerHTML =
-        state.evaluation
-        .map(
-            (item,index) => `
-
-                <div class="result">
-
-                    <strong>
-                        Test ${index + 1}
-                    </strong>
-
-                    <div class="document-meta">
-                        Question:
-                        ${escapeHTML(item.question)}
                     </div>
 
-                    <div class="document-meta">
-                        Expected:
-                        ${escapeHTML(item.expected)}
-                    </div>
+                `
+            )
+            .join("")
+        }
 
-                </div>
-
-            `
-        )
-        .join("");
+    `;
 
 }
 
@@ -3170,84 +3591,62 @@ function runEvaluation(){
     ){
 
         alert(
-            "Load an evaluation dataset first."
+            "Load the demo evaluation first."
         );
 
         return;
+
     }
 
 
     let passed = 0;
 
 
-    const results =
-        state.evaluation
-        .map(item => {
+    state.evaluation.forEach(
+        item => {
 
-            const query =
-                item.question
-                .toLowerCase();
-
-
-            const matches =
+            const results =
                 state.vectorDB
-                .map(record => ({
+                .map(
+                    record => ({
 
-                    record,
+                        record,
 
-                    score:
-                        queryScore(
-                            query,
-                            record.text
-                        )
+                        score:
+                            queryScore(
+                                item.question,
+                                record.text
+                            )
 
-                }))
+                    })
+                )
                 .sort(
                     (a,b) =>
-                        b.score - a.score
+                        b.score -
+                        a.score
                 );
 
 
-            const top =
-                matches[0];
+            const best =
+                results[0];
 
 
-            const success =
-                top &&
-                top.record.text
+            if(
+                best &&
+                best.record.text
                 .toLowerCase()
                 .includes(
                     item.expected
                     .toLowerCase()
-                );
+                )
+            ){
 
-
-            if(success){
                 passed++;
+
             }
 
-
-            return {
-
-                question:
-                    item.question,
-
-                expected:
-                    item.expected,
-
-                result:
-                    success
-                        ? "PASS"
-                        : "FAIL",
-
-                retrieved:
-                    top
-                        ? top.record.documentName
-                        : "None"
-
-            };
-
-        });
+        }
+    );
 
 
     const accuracy =
@@ -3265,10 +3664,7 @@ function runEvaluation(){
     )
     .innerHTML = `
 
-        <div
-            class="grid grid-3"
-            style="margin-bottom:15px;"
-        >
+        <div class="grid grid-3">
 
             <div class="stat">
 
@@ -3282,6 +3678,7 @@ function runEvaluation(){
 
             </div>
 
+
             <div class="stat">
 
                 <div class="stat-label">
@@ -3293,6 +3690,7 @@ function runEvaluation(){
                 </div>
 
             </div>
+
 
             <div class="stat">
 
@@ -3308,48 +3706,6 @@ function runEvaluation(){
 
         </div>
 
-        ${
-            results
-            .map(item => `
-
-                <div class="result">
-
-                    <div class="result-top">
-
-                        <strong>
-                            ${escapeHTML(item.question)}
-                        </strong>
-
-                        <span
-                            class="badge ${
-                                item.result === "PASS"
-                                    ? "badge-green"
-                                    : "badge-orange"
-                            }"
-                        >
-                            ${item.result}
-                        </span>
-
-                    </div>
-
-                    <div class="document-meta">
-
-                        Expected:
-                        ${escapeHTML(item.expected)}
-
-                        ·
-
-                        Retrieved:
-                        ${escapeHTML(item.retrieved)}
-
-                    </div>
-
-                </div>
-
-            `)
-            .join("")
-        }
-
     `;
 
 }
@@ -3363,7 +3719,7 @@ function simulateSourceChange(){
 
     state.sourceVersion++;
 
-    updateVersionDisplay();
+    updateVersionUI();
 
 }
 
@@ -3373,22 +3729,26 @@ function refreshVectorDB(){
     state.vectorVersion =
         state.sourceVersion;
 
-    updateVersionDisplay();
+    updateVersionUI();
 
 }
 
 
-function updateVersionDisplay(){
+function updateVersionUI(){
 
     document
-    .getElementById("sourceVersion")
+    .getElementById(
+        "sourceVersion"
+    )
     .textContent =
         "v" +
         state.sourceVersion;
 
 
     document
-    .getElementById("vectorVersion")
+    .getElementById(
+        "vectorVersion"
+    )
     .textContent =
         "v" +
         state.vectorVersion;
@@ -3412,7 +3772,9 @@ function updateVersionDisplay(){
 
 
     document
-    .getElementById("freshness")
+    .getElementById(
+        "freshness"
+    )
     .textContent =
         freshness + "%";
 
@@ -3420,10 +3782,10 @@ function updateVersionDisplay(){
 
 
 /* =========================================================
-   CLEAR RETRIEVAL STATE
+   CLEAR DOWNSTREAM STATE
 ========================================================= */
 
-function clearRetrievalState(){
+function clearDownstreamState(){
 
     state.retrievalResults = [];
 
@@ -3434,89 +3796,70 @@ function clearRetrievalState(){
     state.answer = "";
 
 
-    const retrieval =
-        document.getElementById(
-            "retrievalOutput"
-        );
+    document
+    .getElementById(
+        "retrievalOutput"
+    ).innerHTML = `
+        <div class="empty">
+            Retrieval results cleared.
+        </div>
+    `;
 
 
-    if(retrieval){
-
-        retrieval.innerHTML = `
-            <div class="empty">
-                Retrieval results cleared.
-            </div>
-        `;
-
-    }
-
-
-    const rerank =
-        document.getElementById(
-            "rerankOutput"
-        );
+    document
+    .getElementById(
+        "rerankOutput"
+    ).innerHTML = `
+        <div class="empty">
+            Reranking results cleared.
+        </div>
+    `;
 
 
-    if(rerank){
-
-        rerank.innerHTML = `
-            <div class="empty">
-                Reranking results cleared.
-            </div>
-        `;
-
-    }
+    document
+    .getElementById(
+        "promptOutput"
+    ).textContent =
+        "Prompt not generated.";
 
 
-    const prompt =
-        document.getElementById(
-            "promptOutput"
-        );
-
-
-    if(prompt){
-
-        prompt.textContent =
-            "Prompt has been cleared because the underlying data changed.";
-
-    }
-
-
-    const answer =
-        document.getElementById(
-            "answerOutput"
-        );
-
-
-    if(answer){
-
-        answer.textContent =
-            "Answer cleared because the underlying retrieval context changed.";
-
-    }
+    document
+    .getElementById(
+        "answerOutput"
+    ).textContent =
+        "No answer generated.";
 
 }
 
 
 /* =========================================================
-   CLEAR ALL DERIVED DATA
+   COUNTERS
 ========================================================= */
 
-function clearAllDerivedData(){
+function updateCounters(){
 
-    state.chunks = [];
+    document
+    .getElementById(
+        "documentCount"
+    )
+    .textContent =
+        state.documents.length;
 
-    state.embeddings = [];
 
-    state.vectorDB = [];
+    document
+    .getElementById(
+        "chunkCount"
+    )
+    .textContent =
+        state.chunks.length;
 
-    state.retrievalResults = [];
 
-    state.rerankedResults = [];
-
-    state.prompt = "";
-
-    state.answer = "";
+    document
+    .getElementById(
+        "vectorCount"
+    )
+    .textContent =
+        state.vectorDB.length;
 
 }
 
@@ -3526,17 +3869,19 @@ function clearAllDerivedData(){
 ========================================================= */
 
 document
-.getElementById("temperature")
+.getElementById(
+    "temperature"
+)
 .addEventListener(
     "input",
-    function(){
+    event => {
 
         document
         .getElementById(
             "temperatureValue"
         )
         .textContent =
-            this.value;
+            event.target.value;
 
     }
 );
@@ -3574,6 +3919,131 @@ function escapeHTML(value){
             /'/g,
             "&#039;"
         );
+
+}
+
+
+/* =========================================================
+   DEMO DOCUMENTS
+========================================================= */
+
+function loadDemoDocuments(){
+
+    /*
+        Clear everything first.
+
+        This means Load Demo is a complete reset,
+        not an append operation.
+    */
+
+    state.documents = [];
+
+    state.chunks = [];
+
+    state.embeddings = [];
+
+    state.vectorDB = [];
+
+
+    clearDownstreamState();
+
+
+    /*
+        Reset ID sequence.
+    */
+
+    nextDocumentNumber = 1;
+
+
+    addDocument({
+
+        name:
+            "employee-handbook.md",
+
+        type:
+            "text/markdown",
+
+        collection:
+            "hr-knowledge",
+
+        content:
+`# Employee Handbook
+
+Employees are entitled to 24 annual leave days.
+
+The standard notice period for employees is 60 days.
+
+Employees can work remotely up to three days per week with manager approval.
+
+Performance reviews are conducted twice every year.`
+
+    });
+
+
+    addDocument({
+
+        name:
+            "product-policy.md",
+
+        type:
+            "text/markdown",
+
+        collection:
+            "product-knowledge",
+
+        content:
+`# Product Policy
+
+Product releases follow a two-week sprint cycle.
+
+Major releases require product, engineering and security approval.
+
+Product owners are responsible for maintaining the product roadmap.
+
+Critical production issues require immediate escalation.`
+
+    });
+
+
+    addDocument({
+
+        name:
+            "security-policy.txt",
+
+        type:
+            "text/plain",
+
+        collection:
+            "company-knowledge",
+
+        content:
+`Security Policy
+
+All production access must use multi-factor authentication.
+
+Sensitive customer information must not be stored in local files.
+
+Security incidents must be reported immediately.
+
+Access permissions should be reviewed every quarter.`
+
+    });
+
+
+    /*
+        The next uploaded document will be DOC-004.
+    */
+
+    nextDocumentNumber = 4;
+
+
+    refreshDocumentUI();
+
+    renderChunks();
+
+    renderEmbeddings();
+
+    renderVectorDB();
 
 }
 
